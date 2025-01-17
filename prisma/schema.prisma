@@ -1,8 +1,4 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+// This is your Prisma schema file
 
 generator client {
   provider = "prisma-client-js"
@@ -11,4 +7,46 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model Product {
+  id          String       @id @default(cuid())
+  name        String
+  imageUrl    String?
+  lowStock    Int          @default(5)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  dailyStocks DailyStock[]
+}
+
+model DailyStock {
+  id              String   @id @default(cuid())
+  date            DateTime @default(now())
+  productId       String
+  openingStock    Int      // Start of day stock
+  closingStock    Int      // End of day stock
+  soldQuantity    Int      @default(0)
+  newStock        Int      @default(0) // What entered stock
+  buyingPrice     Decimal  @db.Decimal(10, 2)
+  sellingPrice    Decimal  @db.Decimal(10, 2)
+  isLocked        Boolean  @default(false)
+  editHash        String?  // Hash for editing locked records
+  product         Product  @relation(fields: [productId], references: [id])
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@unique([date, productId])
+  @@index([date])
+}
+
+model DailySummary {
+  id           String   @id @default(cuid())
+  date         DateTime @unique @default(now())
+  totalProfit  Decimal  @db.Decimal(10, 2)
+  totalInflow  Decimal  @db.Decimal(10, 2)
+  totalOutflow Decimal  @db.Decimal(10, 2)
+  isLocked     Boolean  @default(false)
+  editHash     String?  // Hash for editing locked records
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
