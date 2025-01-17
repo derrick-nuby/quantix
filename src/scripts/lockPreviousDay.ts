@@ -1,25 +1,20 @@
-// file location = /api/daily-stock/[date]/lock
-
-import { NextResponse, NextRequest } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import crypto from 'crypto';
 
-type Params = Promise<{ date: string; }>;
-
-export async function POST(request: NextRequest, { params }: { params: Params; }) {
+async function lockPreviousDay() {
   try {
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    yesterday.setHours(0, 0, 0, 0);
 
-    const resolvedParams = await params;
-
-    const date = new Date(resolvedParams.date);
-
-    // Lock all entries for the date
+    // Lock all entries for yesterday
     await prisma.dailyStock.updateMany({
       where: {
         date: {
-          gte: date,
-          lt: new Date(date.getTime() + 24 * 60 * 60 * 1000),
+          gte: yesterday,
+          lt: new Date(yesterday.getTime() + 24 * 60 * 60 * 1000),
         },
+        isLocked: false,
       },
       data: {
         isLocked: true,
@@ -31,8 +26,8 @@ export async function POST(request: NextRequest, { params }: { params: Params; }
     const dailyStocks = await prisma.dailyStock.findMany({
       where: {
         date: {
-          gte: date,
-          lt: new Date(date.getTime() + 24 * 60 * 60 * 1000),
+          gte: yesterday,
+          lt: new Date(yesterday.getTime() + 24 * 60 * 60 * 1000),
         },
       },
     });
@@ -49,9 +44,18 @@ export async function POST(request: NextRequest, { params }: { params: Params; }
       return sum + (stock.newStock * stock.buyingPrice.toNumber());
     }, 0);
 
-    const dailySummary = await prisma.dailySummary.create({
-      data: {
-        date,
+    // Create or update daily summary
+    await prisma.dailySummary.upsert({
+      where: { date: yesterday },
+      update: {
+        totalProfit,
+        totalInflow,
+        totalOutflow,
+        isLocked: true,
+        editHash: crypto.randomBytes(16).toString('hex'),
+      },
+      create: {
+        date: yesterday,
         totalProfit,
         totalInflow,
         totalOutflow,
@@ -60,13 +64,13 @@ export async function POST(request: NextRequest, { params }: { params: Params; }
       },
     });
 
-    return NextResponse.json({
-      message: 'Daily entries locked successfully',
-      dailySummary,
-    });
+    console.log('Previous day locked successfully');
   } catch (error) {
-    console.error('Failed to lock daily entries:', error);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    console.error('Failed to lock previous day:', error);
+  } finally {
+    await prisma.$disconnect();
   }
 }
+
+export { lockPreviousDay };
 

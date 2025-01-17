@@ -1,14 +1,17 @@
+// file location = /api/daily-stock/[date]/unlock
+
 import { NextResponse, NextRequest } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
-type Params = {
-  date: string;
-};
+type Params = Promise<{ date: string; }>;
 
-export async function POST(request: NextRequest, { params }: { params: Params }) {
+
+export async function POST(request: NextRequest, { params }: { params: Params; }) {
   try {
+
+    const resolvedParams = await params;
     const { editHash } = await request.json();
-    const date = new Date(params.date);
+    const date = new Date(resolvedParams.date);
 
     const dailySummary = await prisma.dailySummary.findUnique({
       where: { date },

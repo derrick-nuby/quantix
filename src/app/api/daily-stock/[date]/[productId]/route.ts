@@ -1,21 +1,27 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
-type Params = {
-  date: string;
-  productId: string;
-};
+type Params = Promise<
+  {
+    date: string;
+    productId: string;
+  }
+>;
 
-export async function PATCH(request: NextRequest, { params }: { params: Params }) {
+
+export async function PATCH(request: NextRequest, { params }: { params: Params; }) {
   try {
+
+    const resolvedParams = await params;
+
     const { soldQuantity, newStock, buyingPrice, sellingPrice } = await request.json();
-    const date = new Date(params.date);
+    const date = new Date(resolvedParams.date);
 
     const dailyStock = await prisma.dailyStock.findUnique({
       where: {
         date_productId: {
           date,
-          productId: params.productId,
+          productId: resolvedParams.productId,
         },
       },
     });
@@ -32,7 +38,7 @@ export async function PATCH(request: NextRequest, { params }: { params: Params }
       where: {
         date_productId: {
           date,
-          productId: params.productId,
+          productId: resolvedParams.productId,
         },
       },
       data: {
@@ -40,7 +46,9 @@ export async function PATCH(request: NextRequest, { params }: { params: Params }
         newStock: newStock !== undefined ? dailyStock.newStock + newStock : undefined,
         buyingPrice: buyingPrice !== undefined ? buyingPrice : undefined,
         sellingPrice: sellingPrice !== undefined ? sellingPrice : undefined,
-        closingStock: dailyStock.openingStock + (newStock || 0) - (soldQuantity || 0),
+        closingStock: dailyStock.openingStock +
+          (dailyStock.newStock + (newStock || 0)) -
+          (dailyStock.soldQuantity + (soldQuantity || 0)),
       },
     });
 
