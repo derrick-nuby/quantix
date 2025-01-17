@@ -1,13 +1,14 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
-type Params = {
-  date: string;
-};
+type Params = Promise<{ date: Date; }>;
 
-export async function GET(request: NextRequest, { params }: { params: Params }) {
+export async function GET(request: NextRequest, { params }: { params: Params; }) {
   try {
-    const date = new Date(params.date);
+
+    const resolvedParams = await params;
+
+    const date = new Date(resolvedParams.date);
 
     const dailyStocks = await prisma.dailyStock.findMany({
       where: {
@@ -17,9 +18,19 @@ export async function GET(request: NextRequest, { params }: { params: Params }) 
         },
       },
       include: {
-        product: true,
+        product: {
+          select: {
+            id: true,
+            name: true,
+            lowStock: true,
+          },
+        },
       },
     });
+
+    if (!dailyStocks || dailyStocks.length === 0) {
+      return NextResponse.json({ error: 'No daily stocks found for the given date' }, { status: 404 });
+    }
 
     return NextResponse.json(dailyStocks);
   } catch (error) {

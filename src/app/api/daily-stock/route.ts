@@ -1,6 +1,5 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { DailyStock } from '@prisma/client';
 
 export async function POST(request: NextRequest) {
   try {
@@ -57,3 +56,27 @@ export async function POST(request: NextRequest) {
   }
 }
 
+export async function GET() {
+  try {
+    // Retrieve all dailyStock entries
+    const dailyStocks = await prisma.dailyStock.findMany({
+      include: {
+        product: {
+          select: {
+            id: true,
+            name: true,
+            lowStock: true,
+          },
+        },
+      },
+      orderBy: {
+        date: 'asc', // Optional: Order by date
+      },
+    });
+
+    return NextResponse.json(dailyStocks, { status: 200 });
+  } catch (error) {
+    console.error('Failed to retrieve daily stock:', error);
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+  }
+}
