@@ -14,13 +14,12 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { LayoutDashboard, Package, BarChart2, Settings, Table2Icon, Lock, Unlock } from 'lucide-react';
+import { LayoutDashboard, BarChart2, Settings, Table2Icon } from 'lucide-react';
 
 const navItems = [
   { href: '/', icon: LayoutDashboard, label: 'Dashboard' },
-  { href: '/products', icon: Package, label: 'Products' },
   { href: '/daily-stock', icon: Table2Icon, label: 'Daily Stock' },
-  { href: '/reports', icon: BarChart2, label: 'Reports' },
+  { href: '/summary', icon: BarChart2, label: 'profit' },
   { href: '/settings', icon: Settings, label: 'Settings' },
 ];
 
@@ -40,7 +39,7 @@ export function AppSidebar() {
               Daily Stock Table
             </Link>
           </Button>
-          <Button asChild variant="secondary" className="w-full justify-start">
+          {/* <Button asChild variant="secondary" className="w-full justify-start">
             <Link href="/lock-day">
               <Lock className="mr-2 h-4 w-4" />
               Lock Day
@@ -51,7 +50,7 @@ export function AppSidebar() {
               <Unlock className="mr-2 h-4 w-4" />
               Unlock Day
             </Link>
-          </Button>
+          </Button> */}
         </div>
       </SidebarHeader>
       <SidebarContent>

@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
 
     // Create daily stock entries for each product
     const dailyStocks = await Promise.all(
-      products.map(async (product) => {
+      products.map(async (product: { id: string; }) => {
         const previousDay = new Date(parsedDate);
         previousDay.setDate(previousDay.getDate() - 1);
 
