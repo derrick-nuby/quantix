@@ -1,5 +1,3 @@
-// file location: src/app/daily-stock/page.tsx
-
 'use client';
 
 import React, { useState } from 'react';
@@ -28,15 +26,11 @@ export default function DailyStockPage() {
       setIsLoading(true);
       const newFormattedDate = format(newDate, 'yyyy-MM-dd');
       try {
-        const result = await startDay.mutateAsync(newFormattedDate);
-        if (result.exists) {
-          toast.success('Fetched existing day data');
-        } else {
-          toast.success('New day created successfully');
-        }
+        await startDay.mutateAsync(newFormattedDate);
+        toast.success('Day data initialized successfully');
       } catch (error) {
-        console.error('Failed to fetch or create day:', error);
-        toast.error('Failed to fetch or create day data');
+        console.error('Failed to initialize day:', error);
+        toast.error('Failed to initialize day data');
       } finally {
         setIsLoading(false);
       }

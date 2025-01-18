@@ -42,17 +42,8 @@ export const useDeleteProduct = () => {
 export const useStartDay = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (date: string) => {
-      // First, check if the day exists
-      const existingDay = await api.getDailyStock(date);
-      if (existingDay && existingDay.length > 0) {
-        return { exists: true, data: existingDay };
-      }
-      // If it doesn't exist, create it
-      const newDay = await api.initiateDailyStock(date);
-      return { exists: false, data: newDay };
-    },
-    onSuccess: (result, variables) => {
+    mutationFn: (date: string) => api.initiateDailyStock(date),
+    onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['dailyStock', variables] });
     },
   });
