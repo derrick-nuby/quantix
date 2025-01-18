@@ -1,6 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { useDailyStock, useUpdateDailyStock, useLockDay, useUnlockDay } from '../hooks/useStockManagement';
 import { formatCurrency } from '../utils/formatters';
+import { CalendarIcon, Lock, Unlock, Edit, Save } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
 
 interface DailyStockEntry {
   id: string;
@@ -15,11 +35,12 @@ interface DailyStockEntry {
 }
 
 export default function DailyStockTable() {
-  const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+  const [date, setDate] = useState<Date | undefined>(new Date());
   const [editMode, setEditMode] = useState<Record<string, boolean>>({});
   const [localData, setLocalData] = useState<DailyStockEntry[]>([]);
+  const [unlockHash, setUnlockHash] = useState('');
 
-  const { data: dailyStockData, isLoading, error } = useDailyStock(date);
+  const { data: dailyStockData, isLoading, error } = useDailyStock(date ? format(date, 'yyyy-MM-dd') : '');
   const updateDailyStock = useUpdateDailyStock();
   const lockDay = useLockDay();
   const unlockDay = useUnlockDay();
@@ -41,7 +62,7 @@ export default function DailyStockTable() {
   const handleSave = async (entry: DailyStockEntry) => {
     try {
       await updateDailyStock.mutateAsync({
-        date,
+        date: format(date!, 'yyyy-MM-dd'),
         productId: entry.productId,
         update: {
           newStock: entry.newStock,
@@ -76,7 +97,7 @@ export default function DailyStockTable() {
 
   const handleLockDay = async () => {
     try {
-      await lockDay.mutateAsync(date);
+      await lockDay.mutateAsync(format(date!, 'yyyy-MM-dd'));
       // Refresh data after locking
       // This should be handled automatically by the queryClient in useStockManagement.ts
     } catch (error) {
@@ -86,13 +107,10 @@ export default function DailyStockTable() {
   };
 
   const handleUnlockDay = async () => {
-    // In a real application, you'd prompt for the editHash
-    const editHash = prompt('Enter edit hash to unlock:');
-    if (editHash) {
+    if (unlockHash) {
       try {
-        await unlockDay.mutateAsync({ date, editHash });
-        // Refresh data after unlocking
-        // This should be handled automatically by the queryClient in useStockManagement.ts
+        await unlockDay.mutateAsync({ date: format(date!, 'yyyy-MM-dd'), editHash: unlockHash });
+        setUnlockHash('');
       } catch (error) {
         console.error('Failed to unlock day:', error);
         // Handle error (e.g., show error message to user)
@@ -101,32 +119,69 @@ export default function DailyStockTable() {
   };
 
   if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
+  if (error) return <div>Error: {(error as Error).message}</div>;
 
   return (
     <div className="overflow-x-auto">
       <div className="flex justify-between items-center mb-4">
-        <input
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          className="border rounded px-2 py-1"
-        />
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant={"outline"}
+              className={cn(
+                "w-[280px] justify-start text-left font-normal",
+                !date && "text-muted-foreground"
+              )}
+            >
+              <CalendarIcon className="mr-2 h-4 w-4" />
+              {date ? format(date, "PPP") : <span>Pick a date</span>}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0">
+            <Calendar
+              mode="single"
+              selected={date}
+              onSelect={setDate}
+              initialFocus
+            />
+          </PopoverContent>
+        </Popover>
         <div>
-          <button
+          <Button
             onClick={handleLockDay}
-            className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
             disabled={localData.some(entry => entry.isLocked)}
+            className="mr-2"
           >
-            Lock Day
-          </button>
-          <button
-            onClick={handleUnlockDay}
-            className="bg-yellow-500 text-white px-4 py-2 rounded"
-            disabled={!localData.some(entry => entry.isLocked)}
-          >
-            Unlock Day
-          </button>
+            <Lock className="mr-2 h-4 w-4" /> Lock Day
+          </Button>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button
+                disabled={!localData.some(entry => entry.isLocked)}
+              >
+                <Unlock className="mr-2 h-4 w-4" /> Unlock Day
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Unlock Day</DialogTitle>
+                <DialogDescription>
+                  Enter the edit hash to unlock the day.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="grid gap-4 py-4">
+                <Input
+                  id="unlockHash"
+                  value={unlockHash}
+                  onChange={(e) => setUnlockHash(e.target.value)}
+                  placeholder="Enter edit hash"
+                />
+              </div>
+              <DialogFooter>
+                <Button onClick={handleUnlockDay}>Unlock</Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
       <table className="min-w-full bg-white border border-gray-300">
@@ -150,7 +205,7 @@ export default function DailyStockTable() {
               <td className="py-2 px-4 border-b text-right">{entry.openingStock}</td>
               <td className="py-2 px-4 border-b text-right">
                 {editMode[entry.productId] ? (
-                  <input
+                  <Input
                     type="number"
                     value={entry.newStock}
                     onChange={(e) => handleInputChange(entry.productId, 'newStock', Number(e.target.value))}
@@ -162,7 +217,7 @@ export default function DailyStockTable() {
               </td>
               <td className="py-2 px-4 border-b text-right">
                 {editMode[entry.productId] ? (
-                  <input
+                  <Input
                     type="number"
                     value={entry.soldQuantity}
                     onChange={(e) => handleInputChange(entry.productId, 'soldQuantity', Number(e.target.value))}
@@ -175,7 +230,7 @@ export default function DailyStockTable() {
               <td className="py-2 px-4 border-b text-right">{entry.closingStock}</td>
               <td className="py-2 px-4 border-b text-right">
                 {editMode[entry.productId] ? (
-                  <input
+                  <Input
                     type="number"
                     value={entry.buyingPrice}
                     onChange={(e) => handleInputChange(entry.productId, 'buyingPrice', Number(e.target.value))}
@@ -187,7 +242,7 @@ export default function DailyStockTable() {
               </td>
               <td className="py-2 px-4 border-b text-right">
                 {editMode[entry.productId] ? (
-                  <input
+                  <Input
                     type="number"
                     value={entry.sellingPrice}
                     onChange={(e) => handleInputChange(entry.productId, 'sellingPrice', Number(e.target.value))}
@@ -203,19 +258,21 @@ export default function DailyStockTable() {
               <td className="py-2 px-4 border-b">
                 {!entry.isLocked && (
                   editMode[entry.productId] ? (
-                    <button
+                    <Button
                       onClick={() => handleSave(entry)}
-                      className="bg-green-500 text-white px-2 py-1 rounded mr-2"
+                      size="sm"
+                      className="mr-2"
                     >
-                      Save
-                    </button>
+                      <Save className="mr-2 h-4 w-4" /> Save
+                    </Button>
                   ) : (
-                    <button
+                    <Button
                       onClick={() => handleEdit(entry.productId)}
-                      className="bg-yellow-500 text-white px-2 py-1 rounded"
+                      size="sm"
+                      variant="outline"
                     >
-                      Edit
-                    </button>
+                      <Edit className="mr-2 h-4 w-4" /> Edit
+                    </Button>
                   )
                 )}
               </td>
@@ -226,4 +283,3 @@ export default function DailyStockTable() {
     </div>
   );
 }
-
