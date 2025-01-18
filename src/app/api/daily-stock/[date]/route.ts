@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
-type Params = Promise<{ date: string; }>;
+type Params = Promise<{ date: Date; }>;
 
 export async function GET(request: NextRequest, { params }: { params: Params; }) {
   try {
@@ -9,11 +9,13 @@ export async function GET(request: NextRequest, { params }: { params: Params; })
     const resolvedParams = await params;
 
     const date = new Date(resolvedParams.date);
-    date.setHours(0, 0, 0, 0);
 
     const dailyStocks = await prisma.dailyStock.findMany({
       where: {
-        date: date,
+        date: {
+          gte: date,
+          lt: new Date(date.getTime() + 24 * 60 * 60 * 1000),
+        },
       },
       include: {
         product: {
@@ -36,4 +38,3 @@ export async function GET(request: NextRequest, { params }: { params: Params; })
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
-
