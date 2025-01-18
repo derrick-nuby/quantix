@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  frontend:
+    container_name: quantix-frontend
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: "postgres://derrickuser:123@database:5432/QuantixDBV2?schema=public"
+      environment: "production"
+    env_file:
+      - .env
+    depends_on:
+      - database
+    restart: always
+    networks:
+      - app-network
+
+  database:
+    container_name: quantix-database
+    image: postgres:15
+    restart: always
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: derrickuser
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: QuantixDBV2
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+volumes:
+  postgres_data:
+
+networks:
+  app-network:
