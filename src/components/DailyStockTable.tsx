@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/dialog";
 import { format } from "date-fns";
 import toast from 'react-hot-toast';
+import Decimal from 'decimal.js';
 
 interface DailyStockEntry {
   id: string;
@@ -69,8 +70,8 @@ export default function DailyStockTable({ date }: DailyStockTableProps) {
         update: {
           newStock: entry.newStock,
           soldQuantity: entry.soldQuantity,
-          buyingPrice: entry.buyingPrice,
-          sellingPrice: entry.sellingPrice,
+          buyingPrice: new Decimal(entry.buyingPrice), // Convert to Decimal
+          sellingPrice: new Decimal(entry.sellingPrice),
         },
       });
       setEditMode(prev => ({ ...prev, [entry.productId]: false }));

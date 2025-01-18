@@ -1,5 +1,6 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { Decimal } from 'decimal.js';
 
 type Params = Promise<
   {
@@ -11,7 +12,6 @@ type Params = Promise<
 
 export async function PATCH(request: NextRequest, { params }: { params: Params; }) {
   try {
-
     const resolvedParams = await params;
 
     const { soldQuantity, newStock, buyingPrice, sellingPrice } = await request.json();
@@ -44,8 +44,8 @@ export async function PATCH(request: NextRequest, { params }: { params: Params; 
       data: {
         soldQuantity: soldQuantity !== undefined ? dailyStock.soldQuantity + soldQuantity : undefined,
         newStock: newStock !== undefined ? dailyStock.newStock + newStock : undefined,
-        buyingPrice: buyingPrice !== undefined ? buyingPrice : undefined,
-        sellingPrice: sellingPrice !== undefined ? sellingPrice : undefined,
+        buyingPrice: buyingPrice !== undefined ? new Decimal(buyingPrice) : undefined, // Convert to Decimal
+        sellingPrice: sellingPrice !== undefined ? new Decimal(sellingPrice) : undefined, // Convert to Decimal
         closingStock: dailyStock.openingStock +
           (dailyStock.newStock + (newStock || 0)) -
           (dailyStock.soldQuantity + (soldQuantity || 0)),

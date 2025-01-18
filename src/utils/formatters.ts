@@ -1,7 +1,8 @@
-export const formatCurrency = (amount: number): string => {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  }).format(amount);
-};
+import Decimal from "decimal.js";
 
+export const formatCurrency = (amount: number | Decimal): string => {
+  // If amount is a Decimal, convert it to a number
+  const numericAmount = amount instanceof Decimal ? amount.toNumber() : amount;
+
+  return `RWF ${numericAmount.toLocaleString()}`;
+};

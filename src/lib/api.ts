@@ -34,7 +34,11 @@ export const getDailyStock = async (date: string) => {
 };
 
 export const updateDailyStock = async (date: string, productId: string, update: Partial<DailyStock>) => {
-  const { data } = await axios.patch<DailyStock>(`/daily-stock/${date}/${productId}`, update);
+  const { data } = await axios.patch<DailyStock>(`/daily-stock/${date}/${productId}`, {
+    ...update,
+    buyingPrice: update.buyingPrice?.toNumber(), // Convert Decimal to number
+    sellingPrice: update.sellingPrice?.toNumber(), // Convert Decimal to number
+  });
   return data;
 };
 
