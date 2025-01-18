@@ -1,35 +1,87 @@
-import axios, { AxiosResponse } from 'axios';
-import { Product, DailyStock } from '@prisma/client';
+import axios from './axios';
+import { Product, DailyStock, DailySummary } from '@prisma/client';
 
 // Products
-export const createProduct = (data: { name: string; imageUrl?: string; }): Promise<AxiosResponse<Product>> =>
-  axios.post('/api/products', data);
+export const getProducts = async () => {
+  const { data } = await axios.get<Product[]>('/products');
+  return data;
+};
 
-export const getProducts = (params?: { page?: number; limit?: number; sortBy?: string; order?: 'asc' | 'desc'; }): Promise<AxiosResponse<{ products: Product[]; pagination: { page: number; limit: number; total: number; totalPages: number; }; }>> =>
-  axios.get('/api/products', { params });
+export const createProduct = async (product: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>) => {
+  const { data } = await axios.post<Product>('/products', product);
+  return data;
+};
 
-export const updateProduct = (id: string, data: { name?: string; imageUrl?: string; }): Promise<AxiosResponse<Product>> =>
-  axios.patch(`/api/products/${id}`, data);
+export const updateProduct = async (id: string, product: Partial<Product>) => {
+  const { data } = await axios.patch<Product>(`/products/${id}`, product);
+  return data;
+};
 
-export const deleteProduct = (id: string): Promise<AxiosResponse<void>> =>
-  axios.delete(`/api/products/${id}`);
+export const deleteProduct = async (id: string) => {
+  const { data } = await axios.delete<{ message: string; }>(`/products/${id}`);
+  return data;
+};
 
 // Daily Stock
-export const startDay = (date: string): Promise<AxiosResponse<DailyStock[]>> =>
-  axios.post('/api/daily-stock', { date });
+export const startDay = async (date: string) => {
+  const { data } = await axios.post<DailyStock[]>('/daily-stock/start-day', { date });
+  return data;
+};
 
-export const getDailyStocks = (): Promise<AxiosResponse<DailyStock[]>> =>
-  axios.get('/api/daily-stock');
+export const getDailyStock = async (date: string) => {
+  const { data } = await axios.get<DailyStock[]>(`/daily-stock/${date}`);
+  return data;
+};
 
-export const getDailyStockByDate = (date: string): Promise<AxiosResponse<DailyStock[]>> =>
-  axios.get(`/api/daily-stock/${date}`);
+export const updateDailyStock = async (date: string, productId: string, update: Partial<DailyStock>) => {
+  const { data } = await axios.patch<DailyStock>(`/daily-stock/${date}/${productId}`, update);
+  return data;
+};
 
-export const updateDailyStock = (date: string, productId: string, data: { soldQuantity?: number; newStock?: number; buyingPrice?: number; sellingPrice?: number; }): Promise<AxiosResponse<DailyStock>> =>
-  axios.patch(`/api/daily-stock/${date}/${productId}`, data);
+export const lockDay = async (date: string) => {
+  const { data } = await axios.post<{ message: string; dailySummary: DailySummary; }>(`/daily-stock/${date}/lock`);
+  return data;
+};
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const lockDailyStock = (date: string): Promise<AxiosResponse<{ message: string; dailySummary: any; }>> =>
-  axios.post(`/api/daily-stock/${date}/lock`);
+export const unlockDay = async (date: string, editHash: string) => {
+  const { data } = await axios.post<{ message: string; }>(`/daily-stock/${date}/unlock`, { editHash });
+  return data;
+};
 
-export const unlockDailyStock = (date: string, editHash: string): Promise<AxiosResponse<{ message: string; }>> =>
-  axios.post(`/api/daily-stock/${date}/unlock`, { editHash });
+// Daily Summary
+export const getDailySummary = async (date: string) => {
+  const { data } = await axios.get<DailySummary>(`/summary/${date}`);
+  return data;
+};
+
+export const getDailySummaryRange = async (startDate: string, endDate: string) => {
+  const { data } = await axios.get<DailySummary[]>(`/summary/range`, { params: { startDate, endDate } });
+  return data;
+};
+
+export const getMonthlySummary = async (year: number, month: number) => {
+  const { data } = await axios.get<DailySummary>(`/summary/monthly/${year}/${month}`);
+  return data;
+};
+
+// Analysis
+export const getProfitAnalysis = async (date: string) => {
+  const { data } = await axios.get(`/analysis/profit/${date}`);
+  return data;
+};
+
+export const getProfitAnalysisRange = async (startDate: string, endDate: string) => {
+  const { data } = await axios.get(`/analysis/profit/range`, { params: { startDate, endDate } });
+  return data;
+};
+
+export const getStockMovements = async (productId: string, startDate?: string, endDate?: string) => {
+  const { data } = await axios.get(`/analysis/stock-movements/${productId}`, { params: { startDate, endDate } });
+  return data;
+};
+
+export const getLowStockProducts = async (threshold?: number) => {
+  const { data } = await axios.get(`/analysis/low-stock`, { params: { threshold } });
+  return data;
+};
+
