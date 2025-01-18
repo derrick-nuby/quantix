@@ -44,7 +44,7 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/derricknuby/quantix:${{ env.TAG }}
-            ghcr.io/derricknuby/quantix:latest
+            ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:${{ env.TAG }}
+            ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest
           build-args: |
             VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }}
