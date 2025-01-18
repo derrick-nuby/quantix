@@ -37,15 +37,15 @@ export async function POST(request: NextRequest, { params }: { params: Params; }
       },
     });
 
-    const totalProfit = dailyStocks.reduce((sum, stock) => {
+    const totalProfit = dailyStocks.reduce((sum: number, stock: { soldQuantity: number; sellingPrice: { toNumber: () => number; }; buyingPrice: { toNumber: () => number; }; }) => {
       return sum + (stock.soldQuantity * (stock.sellingPrice.toNumber() - stock.buyingPrice.toNumber()));
     }, 0);
 
-    const totalInflow = dailyStocks.reduce((sum, stock) => {
+    const totalInflow = dailyStocks.reduce((sum: number, stock: { soldQuantity: number; sellingPrice: { toNumber: () => number; }; buyingPrice: { toNumber: () => number; }; }) => {
       return sum + (stock.soldQuantity * stock.sellingPrice.toNumber());
     }, 0);
 
-    const totalOutflow = dailyStocks.reduce((sum, stock) => {
+    const totalOutflow = dailyStocks.reduce((sum: number, stock: { newStock: number; buyingPrice: { toNumber: () => number; }; }) => {
       return sum + (stock.newStock * stock.buyingPrice.toNumber());
     }, 0);
 

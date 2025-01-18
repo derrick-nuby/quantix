@@ -55,3 +55,13 @@ drafts/
 # cache
 .npm
 .eslintcache
+
+node_modules
+.next
+.git
+.env*
+*.md
+.gitignore
+.dockerignore
+Dockerfile
+docker-compose*

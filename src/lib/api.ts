@@ -54,7 +54,7 @@ export const unlockDay = async (date: string, editHash: string) => {
 
 // Daily Summary
 export const getDailySummary = async (date: string) => {
-  const { data } = await axios.get<DailySummary>(`/summary/${date}`);
+  const { data } = await axios.get<DailySummary>(`/api/daily-summary/${date}`);
   return data;
 };
 

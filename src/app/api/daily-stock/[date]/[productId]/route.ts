@@ -1,3 +1,5 @@
+// file location = src/app/api/daily-stock/[date]/[productId]/route.ts
+
 import { NextResponse, NextRequest } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { Decimal } from 'decimal.js';
