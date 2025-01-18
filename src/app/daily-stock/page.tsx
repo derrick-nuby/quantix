@@ -1,3 +1,5 @@
+// file location: src/app/daily-stock/page.tsx
+
 'use client';
 
 import React, { useState } from 'react';
