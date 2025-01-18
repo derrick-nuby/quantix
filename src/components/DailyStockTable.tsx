@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDailyStock, useUpdateDailyStock, useLockDay, useUnlockDay } from '../hooks/useStockManagement';
+import { useDailyStock, useUpdateDailyStock, useLockDay, useUnlockDay, useStartDay } from '../hooks/useStockManagement';
 import { formatCurrency } from '../utils/formatters';
 import { CalendarIcon, Lock, Unlock, Edit, Save } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
+import { toast } from "@/hooks/use-toast";
 
 interface DailyStockEntry {
   id: string;
@@ -40,10 +41,12 @@ export default function DailyStockTable() {
   const [localData, setLocalData] = useState<DailyStockEntry[]>([]);
   const [unlockHash, setUnlockHash] = useState('');
 
-  const { data: dailyStockData, isLoading, error } = useDailyStock(date ? format(date, 'yyyy-MM-dd') : '');
+  const formattedDate = date ? format(date, 'yyyy-MM-dd') : '';
+  const { data: dailyStockData, isLoading, error, refetch } = useDailyStock(formattedDate);
   const updateDailyStock = useUpdateDailyStock();
   const lockDay = useLockDay();
   const unlockDay = useUnlockDay();
+  const startDay = useStartDay();
 
   useEffect(() => {
     if (dailyStockData) {
@@ -55,6 +58,24 @@ export default function DailyStockTable() {
     }
   }, [dailyStockData]);
 
+  const handleDateChange = async (newDate: Date | undefined) => {
+    if (newDate) {
+      setDate(newDate);
+      const newFormattedDate = format(newDate, 'yyyy-MM-dd');
+      try {
+        await startDay.mutateAsync(newFormattedDate);
+        refetch();
+      } catch (error) {
+        console.error('Failed to start new day:', error);
+        toast({
+          title: "Error",
+          description: "Failed to start new day. The day might already exist.",
+          variant: "destructive",
+        });
+      }
+    }
+  };
+
   const handleEdit = (productId: string) => {
     setEditMode(prev => ({ ...prev, [productId]: true }));
   };
@@ -62,7 +83,7 @@ export default function DailyStockTable() {
   const handleSave = async (entry: DailyStockEntry) => {
     try {
       await updateDailyStock.mutateAsync({
-        date: format(date!, 'yyyy-MM-dd'),
+        date: formattedDate,
         productId: entry.productId,
         update: {
           newStock: entry.newStock,
@@ -72,9 +93,17 @@ export default function DailyStockTable() {
         },
       });
       setEditMode(prev => ({ ...prev, [entry.productId]: false }));
+      toast({
+        title: "Success",
+        description: "Stock entry updated successfully.",
+      });
     } catch (error) {
       console.error('Failed to update daily stock:', error);
-      // Handle error (e.g., show error message to user)
+      toast({
+        title: "Error",
+        description: "Failed to update stock entry.",
+        variant: "destructive",
+      });
     }
   };
 
@@ -97,23 +126,39 @@ export default function DailyStockTable() {
 
   const handleLockDay = async () => {
     try {
-      await lockDay.mutateAsync(format(date!, 'yyyy-MM-dd'));
-      // Refresh data after locking
-      // This should be handled automatically by the queryClient in useStockManagement.ts
+      await lockDay.mutateAsync(formattedDate);
+      refetch();
+      toast({
+        title: "Success",
+        description: "Day locked successfully.",
+      });
     } catch (error) {
       console.error('Failed to lock day:', error);
-      // Handle error (e.g., show error message to user)
+      toast({
+        title: "Error",
+        description: "Failed to lock day.",
+        variant: "destructive",
+      });
     }
   };
 
   const handleUnlockDay = async () => {
     if (unlockHash) {
       try {
-        await unlockDay.mutateAsync({ date: format(date!, 'yyyy-MM-dd'), editHash: unlockHash });
+        await unlockDay.mutateAsync({ date: formattedDate, editHash: unlockHash });
         setUnlockHash('');
+        refetch();
+        toast({
+          title: "Success",
+          description: "Day unlocked successfully.",
+        });
       } catch (error) {
         console.error('Failed to unlock day:', error);
-        // Handle error (e.g., show error message to user)
+        toast({
+          title: "Error",
+          description: "Failed to unlock day. Please check the edit hash.",
+          variant: "destructive",
+        });
       }
     }
   };
@@ -141,7 +186,7 @@ export default function DailyStockTable() {
             <Calendar
               mode="single"
               selected={date}
-              onSelect={setDate}
+              onSelect={handleDateChange}
               initialFocus
             />
           </PopoverContent>
@@ -283,3 +328,4 @@ export default function DailyStockTable() {
     </div>
   );
 }
+
