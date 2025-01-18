@@ -5,6 +5,14 @@ export async function POST(request: NextRequest) {
   try {
     const { date } = await request.json();
     const parsedDate = new Date(date);
+    parsedDate.setHours(0, 0, 0, 0);
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (parsedDate < today) {
+      return NextResponse.json({ error: 'Cannot create entries for past dates' }, { status: 400 });
+    }
 
     // Check if entries already exist for this date
     const existingEntries = await prisma.dailyStock.findFirst({
@@ -56,10 +64,22 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    // Retrieve all dailyStock entries
+    const url = new URL(request.url);
+    const date = url.searchParams.get('date');
+
+    if (!date) {
+      return NextResponse.json({ error: 'Date parameter is required' }, { status: 400 });
+    }
+
+    const parsedDate = new Date(date);
+    parsedDate.setHours(0, 0, 0, 0);
+
     const dailyStocks = await prisma.dailyStock.findMany({
+      where: {
+        date: parsedDate,
+      },
       include: {
         product: {
           select: {
@@ -69,14 +89,16 @@ export async function GET() {
           },
         },
       },
-      orderBy: {
-        date: 'asc', // Optional: Order by date
-      },
     });
 
-    return NextResponse.json(dailyStocks, { status: 200 });
+    if (!dailyStocks || dailyStocks.length === 0) {
+      return NextResponse.json({ error: 'No daily stocks found for the given date' }, { status: 404 });
+    }
+
+    return NextResponse.json(dailyStocks);
   } catch (error) {
     console.error('Failed to retrieve daily stock:', error);
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
+

@@ -23,8 +23,8 @@ export const deleteProduct = async (id: string) => {
 };
 
 // Daily Stock
-export const startDay = async (date: string) => {
-  const { data } = await axios.post<DailyStock[]>('/daily-stock/start-day', { date });
+export const initiateDailyStock = async (date: string) => {
+  const { data } = await axios.post<DailyStock[]>('/daily-stock', { date });
   return data;
 };
 

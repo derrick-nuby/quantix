@@ -1,3 +1,4 @@
+// file location: src/hooks/useStockManagement.ts
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import * as api from '../lib/api';
 import { Product, DailyStock } from '@prisma/client';
@@ -41,9 +42,18 @@ export const useDeleteProduct = () => {
 export const useStartDay = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: api.startDay,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['dailyStock'] });
+    mutationFn: async (date: string) => {
+      // First, check if the day exists
+      const existingDay = await api.getDailyStock(date);
+      if (existingDay && existingDay.length > 0) {
+        return { exists: true, data: existingDay };
+      }
+      // If it doesn't exist, create it
+      const newDay = await api.initiateDailyStock(date);
+      return { exists: false, data: newDay };
+    },
+    onSuccess: (result, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['dailyStock', variables] });
     },
   });
 };
@@ -129,4 +139,3 @@ export const useLowStockProducts = (threshold?: number) => {
     queryFn: () => api.getLowStockProducts(threshold),
   });
 };
-
