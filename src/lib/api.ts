@@ -1,9 +1,25 @@
 import axios from './axios';
 import { Product, DailyStock, DailySummary } from '@prisma/client';
+interface ProductResponse {
+  products: Product[];
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
+}
 
-// Products
-export const getProducts = async () => {
-  const { data } = await axios.get<Product[]>('/products');
+interface ProductsParams {
+  page: number;
+  limit: number;
+  search: string;
+  sortBy: string;
+  order: 'asc' | 'desc';
+}
+
+export const getProducts = async (params: ProductsParams): Promise<ProductResponse> => {
+  const { data } = await axios.get<ProductResponse>('/products', { params });
   return data;
 };
 
@@ -54,7 +70,7 @@ export const unlockDay = async (date: string, editHash: string) => {
 
 // Daily Summary
 export const getDailySummary = async (date: string) => {
-  const { data } = await axios.get<DailySummary>(`/api/daily-summary/${date}`);
+  const { data } = await axios.get<DailySummary>(`/daily-summary/${date}`);
   return data;
 };
 
