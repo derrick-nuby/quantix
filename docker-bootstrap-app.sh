@@ -2,9 +2,6 @@
 # ENVIRONMENT from docker-compose.yaml doesn't get through to subprocesses
 # Need to explicitly pass DATABASE_URL here, otherwise migration doesn't work
 
-# Database URL without SSL
-DATABASE_URL="postgres://derrickuser:123@localhost:5432/QuantixDBV2?schema=public&sslmode=disable"
-
 # Run migrations
 echo "Running migrations..."
 npx prisma migrate deploy
@@ -18,5 +15,5 @@ else
 fi
 
 # Start the application
-echo "Starting the application..."
-DATABASE_URL="postgres://derrickuser:123@localhost:5432/QuantixDBV2?schema=public&sslmode=disable" node server.js
+
+node server.js
