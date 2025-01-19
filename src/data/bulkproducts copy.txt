@@ -1,0 +1,274 @@
+{
+  "products": [
+    {
+      "name": "Agasusuruko",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "American Gin",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Amstel",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Amstel Bock",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Balozi",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Be One",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Black Gin",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Bond 7 (Medium)",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Bond 7 (Small)",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Boss Gin",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Cheetah",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Club (Small)",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Energy Drink",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Energy Drink",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Fanta (Glass)",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Fanta (Plastic)",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Gilbeys (Small)",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Grandsire",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Heineken",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Ikosora",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Ingwe",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Juice",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "K-Vant (Large)",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "K-Vant (Small)",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Knowles",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Konyagi (Large)",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Konyagi (Medium)",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Konyagi (Small)",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Legend",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Millennium",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Mineral Water",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Mirinda (Small)",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "More Up",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Mutzig",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Nobilis",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Panache (Small)",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Petit Fanta",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Petit Mutzig",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Petit Panache",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Petit Skol",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Petit Virunga",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Pineapple Juice",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Primus",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Red Warrior",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Skol (500ml)",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Skol (Small)",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Skol Lager",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Small Water",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Smirnoff",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Turbo King",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Tusker Malt",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Twist",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Virunga (Medium)",
+      "imageUrl": "url1",
+      "lowStock": 5
+    },
+    {
+      "name": "Virunga Gold",
+      "imageUrl": "url1",
+      "lowStock": 5
+    }
+  ]
+}
