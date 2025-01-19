@@ -3,7 +3,7 @@
 # Need to explicitly pass DATABASE_URL here, otherwise migration doesn't work
 
 # Database URL without SSL
-DATABASE_URL="postgresql://derrickuser:123@localhost:5432/QuantixDBV2?schema=public&sslmode=disable"
+DATABASE_URL="postgres://derrickuser:123@localhost:5432/QuantixDBV2?schema=public&sslmode=disable"
 
 # Run migrations
 echo "Running migrations..."
@@ -19,4 +19,4 @@ fi
 
 # Start the application
 echo "Starting the application..."
-DATABASE_URL="postgresql://derrickuser:123@localhost:5432/QuantixDBV2?schema=public&sslmode=disable" node server.js
+DATABASE_URL="postgres://derrickuser:123@localhost:5432/QuantixDBV2?schema=public&sslmode=disable" node server.js
