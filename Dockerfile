@@ -60,6 +60,8 @@ COPY --from=builder --chown=nextjs:nodejs /app/tailwind.config.ts ./
 COPY --from=builder --chown=nextjs:nodejs /app/postcss.config.mjs ./
 COPY --chown=nextjs:nodejs docker-bootstrap-app.sh ./
 
+RUN chmod +x docker-bootstrap-app.sh
+
 USER nextjs
 
 EXPOSE 3000
