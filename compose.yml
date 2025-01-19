@@ -8,8 +8,6 @@ services:
     environment:
       DATABASE_URL: "postgres://derrickuser:123@database:5432/QuantixDBV2?schema=public"
       environment: "production"
-    env_file:
-      - .env
     depends_on:
       - database
     restart: unless-stopped
@@ -20,8 +18,6 @@ services:
     container_name: quantix-database
     image: postgres:15-alpine
     restart: unless-stopped
-    env_file:
-      - .env
     environment:
       POSTGRES_USER: derrickuser
       POSTGRES_PASSWORD: 123
