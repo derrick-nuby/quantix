@@ -1,8 +1,10 @@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { AlertCircle, MoreVertical, Edit, Eye, Star } from 'lucide-react';
+import { AlertCircle, MoreVertical, Edit, Eye, Trash } from 'lucide-react';
 import Image from "next/image";
 import Link from "next/link";
+import { useDeleteProduct } from '@/hooks/useStockManagement';
+import { toast } from 'react-hot-toast';
 
 interface ProductCardProps {
   product: {
@@ -10,10 +12,23 @@ interface ProductCardProps {
     name: string;
     lowStock: number;
     createdAt: string;
+    imageUrl?: string;
   };
 }
 
 export function ProductCard({ product }: ProductCardProps) {
+  const deleteProduct = useDeleteProduct();
+
+  const handleDelete = async () => {
+    try {
+      await deleteProduct.mutateAsync(product.id);
+      toast.success('Product deleted successfully');
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      toast.error('Failed to delete product');
+    }
+  };
+
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -35,21 +50,23 @@ export function ProductCard({ product }: ProductCardProps) {
                 <span>View Product</span>
               </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Star className="mr-2 h-4 w-4" />
-              <span>Add to Favorites</span>
+            <DropdownMenuItem onClick={handleDelete}>
+              <Trash className="mr-2 h-4 w-4" />
+              <span>Delete</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </CardHeader>
       <CardContent>
-        <Image
-          src={'/placeholder.svg'}
-          alt={product.name}
-          width={500}
-          height={192}
-          className="w-full h-48 object-cover rounded-md"
-        />
+        <Link href={`/products/${product.id}`}>
+          <Image
+            src={'/placeholder.svg'}
+            alt={product.name}
+            width={500}
+            height={192}
+            className="w-full h-48 object-cover rounded-md"
+          />
+        </Link>
       </CardContent>
       <CardFooter className="flex justify-between">
         <div className="flex items-center">

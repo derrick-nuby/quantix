@@ -105,3 +105,33 @@ export const getLowStockProducts = async (threshold?: number) => {
   return data;
 };
 
+
+export const getProduct = async (id: string): Promise<Product> => {
+  const { data } = await axios.get<Product>(`/products/${id}`);
+  return data;
+};
+
+
+interface BulkDailyStockUpdate {
+  productId: string;
+  soldQuantity?: number;
+  newStock?: number;
+  buyingPrice?: number;
+  sellingPrice?: number;
+}
+
+export const updateBulkDailyStock = async (date: string, updates: BulkDailyStockUpdate[]) => {
+  const { data } = await axios.patch<DailyStock[]>(`/api/daily-stock/${date}/bulk`, { updates });
+  return data;
+};
+
+interface BulkProductCreate {
+  name: string;
+  imageUrl?: string;
+  lowStock?: number;
+}
+
+export const createBulkProducts = async (products: BulkProductCreate[]) => {
+  const { data } = await axios.post<Product[]>('/api/products/bulk', { products });
+  return data;
+};

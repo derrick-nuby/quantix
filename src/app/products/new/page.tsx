@@ -8,22 +8,31 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { toast } from 'react-hot-toast';
 
 export default function NewProductPage() {
   const router = useRouter();
   const createProduct = useCreateProduct();
   const [name, setName] = useState('');
   const [imageUrl, setImageUrl] = useState('');
+  const [lowStock, setLowStock] = useState(5);
   const [file, setFile] = useState<File | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await createProduct.mutateAsync({ name, imageUrl, lowStock: 5 });
-      console.log(file);
+      if (file) {
+        // TODO: Implement file upload logic here
+        // For now, we'll just use a placeholder URL
+        setImageUrl('/placeholder.svg');
+      }
+
+      await createProduct.mutateAsync({ name, imageUrl, lowStock });
+      toast.success('Product created successfully');
       router.push('/products');
     } catch (error) {
       console.error('Failed to create product:', error);
+      toast.error('Failed to create product');
     }
   };
 
@@ -42,6 +51,16 @@ export default function NewProductPage() {
                   id="name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
+                  required
+                />
+              </div>
+              <div>
+                <Label htmlFor="lowStock">Low Stock Threshold</Label>
+                <Input
+                  id="lowStock"
+                  type="number"
+                  value={lowStock}
+                  onChange={(e) => setLowStock(parseInt(e.target.value))}
                   required
                 />
               </div>
