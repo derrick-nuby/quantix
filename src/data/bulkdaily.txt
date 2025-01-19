@@ -1,10 +1,4 @@
-{
-	"updates": [
-		{
-			"productId": "cm62duw8b0000lroc040gal1o",
-			"buyingPrice": 1000,
-			"sellingPrice": 1200
-		},
+ [
 		{
 			"productId": "cm62duw8e0001lrocr1tzm6j9",
 			"buyingPrice": 1200,
@@ -271,4 +265,3 @@
 			"sellingPrice": 1500
 		}
 	]
-}

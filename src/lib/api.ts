@@ -121,7 +121,7 @@ interface BulkDailyStockUpdate {
 }
 
 export const updateBulkDailyStock = async (date: string, updates: BulkDailyStockUpdate[]) => {
-  const { data } = await axios.patch<DailyStock[]>(`/api/daily-stock/${date}/bulk`, { updates });
+  const { data } = await axios.patch<DailyStock[]>(`/daily-stock/${date}/bulk`, { updates });
   return data;
 };
 
@@ -132,6 +132,6 @@ interface BulkProductCreate {
 }
 
 export const createBulkProducts = async (products: BulkProductCreate[]) => {
-  const { data } = await axios.post<Product[]>('/api/products/bulk', { products });
+  const { data } = await axios.post<Product[]>('/products/bulk', { products });
   return data;
 };
