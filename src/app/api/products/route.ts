@@ -28,35 +28,50 @@ export async function POST(request: NextRequest) {
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const page = parseInt(searchParams.get('page') || '1');
-    const limit = parseInt(searchParams.get('limit') || '10');
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '10', 10);
+    const search = searchParams.get('search') || '';
     const sortBy = searchParams.get('sortBy') || 'createdAt';
-    const order = searchParams.get('order') || 'desc';
+    const order = (searchParams.get('order') || 'desc') as 'asc' | 'desc';
 
     const skip = (page - 1) * limit;
 
-    const products = await prisma.product.findMany({
-      skip,
-      take: limit,
-      orderBy: {
-        [sortBy]: order,
-      },
-    });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const whereClause: any = {
+      AND: [
+        { name: { contains: search, mode: 'insensitive' } },
+      ],
+    };
 
-    const total = await prisma.product.count();
+    const [products, totalCount] = await Promise.all([
+      prisma.product.findMany({
+        where: whereClause,
+        skip,
+        take: limit,
+        orderBy: {
+          [sortBy]: order,
+        },
+      }),
+      prisma.product.count({ where: whereClause }),
+    ]);
+
+    const totalPages = Math.ceil(totalCount / limit);
 
     return NextResponse.json({
+      success: true,
       products,
       pagination: {
-        page,
+        currentPage: page,
+        totalPages,
+        totalCount,
         limit,
-        total,
-        totalPages: Math.ceil(total / limit),
       },
     });
   } catch (error) {
     console.error('Failed to fetch products:', error);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    return NextResponse.json({
+      success: false,
+      message: 'Error fetching products'
+    }, { status: 500 });
   }
 }
-

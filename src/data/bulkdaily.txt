@@ -1,0 +1,267 @@
+ [
+		{
+			"productId": "cm62duw8e0001lrocr1tzm6j9",
+			"buyingPrice": 1200,
+			"sellingPrice": 1500
+		},
+		{
+			"productId": "cm62duw8f0002lroclayq8acf",
+			"buyingPrice": 850,
+			"sellingPrice": 1000
+		},
+		{
+			"productId": "cm62duw8f0003lroczc60j6i7",
+			"buyingPrice": 2200,
+			"sellingPrice": 2500
+		},
+		{
+			"productId": "cm62duw8f0004lroct22asquq",
+			"buyingPrice": 1000,
+			"sellingPrice": 1200
+		},
+		{
+			"productId": "cm62duw8f0005lroc157r1wq1",
+			"buyingPrice": 1700,
+			"sellingPrice": 2000
+		},
+		{
+			"productId": "cm62duw8f0006lrocbii0sudf",
+			"buyingPrice": 1700,
+			"sellingPrice": 2000
+		},
+		{
+			"productId": "cm62duw8f0007lroc9478xh8u",
+			"buyingPrice": 4500,
+			"sellingPrice": 5500
+		},
+		{
+			"productId": "cm62duw8g0008lrocq59g8y5w",
+			"buyingPrice": 3000,
+			"sellingPrice": 3500
+		},
+		{
+			"productId": "cm62duw8g0009lrock7vr9md7",
+			"buyingPrice": 2000,
+			"sellingPrice": 2500
+		},
+		{
+			"productId": "cm62duw8g000alrocmz4j8xnv",
+			"buyingPrice": 450,
+			"sellingPrice": 600
+		},
+		{
+			"productId": "cm62duw8g000blrocwkqh803u",
+			"buyingPrice": 650,
+			"sellingPrice": 800
+		},
+		{
+			"productId": "cm62duw8g000clrocqtvfb6tm",
+			"buyingPrice": 450,
+			"sellingPrice": 600
+		},
+		{
+			"productId": "cm62duw8g000dlrocti0wic64",
+			"buyingPrice": 450,
+			"sellingPrice": 600
+		},
+		{
+			"productId": "cm62duw8h000elroc041mqi6u",
+			"buyingPrice": 800,
+			"sellingPrice": 1000
+		},
+		{
+			"productId": "cm62duw8h000flrocvtwiw1q7",
+			"buyingPrice": 800,
+			"sellingPrice": 1000
+		},
+		{
+			"productId": "cm62duw8h000glrocohjwmpxo",
+			"buyingPrice": 3000,
+			"sellingPrice": 3500
+		},
+		{
+			"productId": "cm62duw8h000hlrocbro48ptt",
+			"buyingPrice": 1200,
+			"sellingPrice": 1500
+		},
+		{
+			"productId": "cm62duw8h000ilrocypfvvy29",
+			"buyingPrice": 1000,
+			"sellingPrice": 1200
+		},
+		{
+			"productId": "cm62duw8h000jlroc7r9txq42",
+			"buyingPrice": 1000,
+			"sellingPrice": 1200
+		},
+		{
+			"productId": "cm62duw8i000klrocusq3w371",
+			"buyingPrice": 1200,
+			"sellingPrice": 1500
+		},
+		{
+			"productId": "cm62duw8i000llroc7rz71bj4",
+			"buyingPrice": 800,
+			"sellingPrice": 1000
+		},
+		{
+			"productId": "cm62duw8i000mlroc7imn9kgd",
+			"buyingPrice": 8000,
+			"sellingPrice": 9000
+		},
+		{
+			"productId": "cm62duw8i000nlroc0s6bu9iq",
+			"buyingPrice": 2500,
+			"sellingPrice": 3000
+		},
+		{
+			"productId": "cm62duw8i000olrocysk2xhnr",
+			"buyingPrice": 750,
+			"sellingPrice": 900
+		},
+		{
+			"productId": "cm62duw8i000plroc614vipzi",
+			"buyingPrice": 7000,
+			"sellingPrice": 8000
+		},
+		{
+			"productId": "cm62duw8i000qlroc6btb9djm",
+			"buyingPrice": 12000,
+			"sellingPrice": 14000
+		},
+		{
+			"productId": "cm62duw8j000rlroc2gqlvpcx",
+			"buyingPrice": 2500,
+			"sellingPrice": 3000
+		},
+		{
+			"productId": "cm62duw8j000slrocz2brwxq9",
+			"buyingPrice": 1000,
+			"sellingPrice": 1200
+		},
+		{
+			"productId": "cm62duw8j000tlrocqd1lu6hd",
+			"buyingPrice": 650,
+			"sellingPrice": 800
+		},
+		{
+			"productId": "cm62duw8j000ulrocuyn85fzf",
+			"buyingPrice": 800,
+			"sellingPrice": 1000
+		},
+		{
+			"productId": "cm62duw8j000vlroc6x09dn7a",
+			"buyingPrice": 800,
+			"sellingPrice": 1000
+		},
+		{
+			"productId": "cm62duw8j000wlrocaq2stfem",
+			"buyingPrice": 2000,
+			"sellingPrice": 2500
+		},
+		{
+			"productId": "cm62duw8k000xlroc2wzfted3",
+			"buyingPrice": 1500,
+			"sellingPrice": 1700
+		},
+		{
+			"productId": "cm62duw8k000ylrockjiavvla",
+			"buyingPrice": 1700,
+			"sellingPrice": 2000
+		},
+		{
+			"productId": "cm62duw8k000zlrocefig3bqb",
+			"buyingPrice": 850,
+			"sellingPrice": 1000
+		},
+		{
+			"productId": "cm62duw8k0010lrocsx138jo9",
+			"buyingPrice": 450,
+			"sellingPrice": 600
+		},
+		{
+			"productId": "cm62duw8l0011lrocz9r70mtg",
+			"buyingPrice": 750,
+			"sellingPrice": 900
+		},
+		{
+			"productId": "cm62duw8l0012lrocrdig38kk",
+			"buyingPrice": 550,
+			"sellingPrice": 700
+		},
+		{
+			"productId": "cm62duw8l0013lroclduknhdr",
+			"buyingPrice": 750,
+			"sellingPrice": 900
+		},
+		{
+			"productId": "cm62duw8l0014lrocbaydphp8",
+			"buyingPrice": 650,
+			"sellingPrice": 800
+		},
+		{
+			"productId": "cm62duw8l0015lrocx40btx45",
+			"buyingPrice": 450,
+			"sellingPrice": 600
+		},
+		{
+			"productId": "cm62duw8l0016lroca7jfxdla",
+			"buyingPrice": 1100,
+			"sellingPrice": 1300
+		},
+		{
+			"productId": "cm62duw8l0017lrocdq5d7rqy",
+			"buyingPrice": 1200,
+			"sellingPrice": 1500
+		},
+		{
+			"productId": "cm62duw8m0018lroc36pv58pk",
+			"buyingPrice": 1100,
+			"sellingPrice": 1300
+		},
+		{
+			"productId": "cm62duw8m0019lrocx9dusdlu",
+			"buyingPrice": 1400,
+			"sellingPrice": 1600
+		},
+		{
+			"productId": "cm62duw8m001alrocrj6vpdos",
+			"buyingPrice": 850,
+			"sellingPrice": 1000
+		},
+		{
+			"productId": "cm62duw8m001blroc1xwl0lc7",
+			"buyingPrice": 800,
+			"sellingPrice": 1000
+		},
+		{
+			"productId": "cm62duw8m001clrocs4eoa87x",
+			"buyingPrice": 2000,
+			"sellingPrice": 2500
+		},
+		{
+			"productId": "cm62duw8m001dlrocl8khas6c",
+			"buyingPrice": 900,
+			"sellingPrice": 1100
+		},
+		{
+			"productId": "cm62duw8m001elrocpt84o046",
+			"buyingPrice": 1300,
+			"sellingPrice": 1500
+		},
+		{
+			"productId": "cm62duw8n001flrocw6nvr6dd",
+			"buyingPrice": 450,
+			"sellingPrice": 600
+		},
+		{
+			"productId": "cm62duw8n001glrocjuba5uiy",
+			"buyingPrice": 850,
+			"sellingPrice": 1000
+		},
+		{
+			"productId": "cm62duw8n001hlroc94htnouv",
+			"buyingPrice": 1300,
+			"sellingPrice": 1500
+		}
+	]

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { format } from 'date-fns';
-import { CalendarIcon } from 'lucide-react';
+import { CalendarIcon, LockIcon, UnlockIcon, DollarSign, TrendingUp, TrendingDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
@@ -11,7 +11,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useDailySummary } from '@/hooks/useStockManagement';
+import { formatCurrency } from '@/utils/formatters';
 
 export default function DailyStockPage() {
   const [date, setDate] = useState<Date | undefined>(new Date());
@@ -24,6 +26,10 @@ export default function DailyStockPage() {
 
   const handleDateChange = (newDate: Date | undefined) => {
     setDate(newDate);
+  };
+
+  const formatDateForTitle = (date: Date) => {
+    return format(date, "EEEE, do MMMM yyyy");
   };
 
   return (
@@ -55,14 +61,73 @@ export default function DailyStockPage() {
 
       {isLoading && <div>Loading summary...</div>}
       {error && <div>Error loading summary: {error.message}</div>}
+
       {summary && (
-        <div className="bg-gray-100 p-4 rounded-lg shadow">
-          <h2 className="text-xl font-bold mb-2">Summary for {formattedDate}</h2>
-          <p><strong>Total Profit:</strong> ${summary.totalProfit.toFixed(2)}</p>
-          <p><strong>Total Inflow:</strong> ${summary.totalInflow.toFixed(2)}</p>
-          <p><strong>Total Outflow:</strong> ${summary.totalOutflow.toFixed(2)}</p>
+        <div className="space-y-4">
+          <h1 className="text-3xl font-bold text-primary">
+            Daily Stock Summary for {formatDateForTitle(new Date(summary.date))}
+          </h1>
+
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Total Profit</CardTitle>
+                <DollarSign className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{formatCurrency(summary.totalProfit)}</div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Total Inflow</CardTitle>
+                <TrendingUp className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{formatCurrency(summary.totalInflow)}</div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Total Outflow</CardTitle>
+                <TrendingDown className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{formatCurrency(summary.totalOutflow)}</div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Status</CardTitle>
+                {summary.isLocked ? (
+                  <LockIcon className="h-4 w-4 text-muted-foreground" />
+                ) : (
+                  <UnlockIcon className="h-4 w-4 text-muted-foreground" />
+                )}
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{summary.isLocked ? 'Locked' : 'Unlocked'}</div>
+              </CardContent>
+            </Card>
+          </div>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Additional Information</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p><strong>Date:</strong> {format(new Date(summary.date), 'PPP')}</p>
+              <p><strong>Edit Hash:</strong> {summary.editHash}</p>
+              <p><strong>Created At:</strong> {format(new Date(summary.createdAt), 'PPP')}</p>
+              <p><strong>Updated At:</strong> {format(new Date(summary.updatedAt), 'PPP')}</p>
+            </CardContent>
+          </Card>
         </div>
       )}
     </div>
   );
 }
+

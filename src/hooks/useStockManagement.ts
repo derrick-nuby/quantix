@@ -3,9 +3,19 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import * as api from '../lib/api';
 import { Product, DailyStock } from '@prisma/client';
 
-// Products
-export const useProducts = () => {
-  return useQuery({ queryKey: ['products'], queryFn: api.getProducts });
+interface ProductsParams {
+  page: number;
+  limit: number;
+  search: string;
+  sortBy: string;
+  order: 'asc' | 'desc';
+}
+
+export const useProducts = (params: ProductsParams) => {
+  return useQuery({
+    queryKey: ['products', params],
+    queryFn: () => api.getProducts(params),
+  });
 };
 
 export const useCreateProduct = () => {
