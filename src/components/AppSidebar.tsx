@@ -14,12 +14,13 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { LayoutDashboard, BarChart2, Settings, Table2Icon } from 'lucide-react';
+import { LayoutDashboard, Settings, Table2Icon } from 'lucide-react';
 
 const navItems = [
   { href: '/', icon: LayoutDashboard, label: 'Dashboard' },
-  { href: '/daily-stock', icon: Table2Icon, label: 'Daily Stock' },
-  { href: '/summary', icon: BarChart2, label: 'profit' },
+  { href: '/summary', icon: Table2Icon, label: 'summary' },
+  { href: '/products', icon: Table2Icon, label: 'products' },
+  { href: '/hashes', icon: Table2Icon, label: 'passwords' },
   { href: '/settings', icon: Settings, label: 'Settings' },
 ];
 
