@@ -49,7 +49,7 @@ RUN mkdir -p .next/cache/
 RUN chown -R nextjs:nodejs .next/
 
 # Copy necessary files and directories
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+# COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
@@ -58,9 +58,10 @@ COPY --from=builder --chown=nextjs:nodejs /app/src ./src
 COPY --from=builder --chown=nextjs:nodejs /app/components.json ./
 COPY --from=builder --chown=nextjs:nodejs /app/tailwind.config.ts ./
 COPY --from=builder --chown=nextjs:nodejs /app/postcss.config.mjs ./
+COPY --chown=nextjs:nodejs docker-bootstrap-app.sh ./
 
 USER nextjs
 
 EXPOSE 3000
 
-CMD ["node", "server.js"]
+CMD ["./docker-bootstrap-app.sh"]
