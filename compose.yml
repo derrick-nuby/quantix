@@ -1,8 +1,6 @@
-version: "3.8"
-
 services:
   frontend:
-    image: ghcr.io/hisprwanda/partner-management-platform-api:prod
+    image: ghcr.io/derrick-nuby/quantix:prod
     container_name: quantix-frontend
     build: .
     ports:
@@ -14,14 +12,14 @@ services:
       - .env
     depends_on:
       - database
-    restart: always
+    restart: unless-stopped
     networks:
       - app-network
 
   database:
     container_name: quantix-database
     image: postgres:15-alpine
-    restart: always
+    restart: unless-stopped
     env_file:
       - .env
     environment:
@@ -34,6 +32,16 @@ services:
       - app-network
     ports:
       - "5432:5432"
+
+  watchtower:
+    image: containrrr/watchtower:latest
+    container_name: watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_POLL_INTERVAL=300
+    restart: always
 
 volumes:
   postgres_data:
