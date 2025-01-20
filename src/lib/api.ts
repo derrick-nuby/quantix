@@ -135,3 +135,8 @@ export const createBulkProducts = async (products: BulkProductCreate[]) => {
   const { data } = await axios.post<Product[]>('/products/bulk', { products });
   return data;
 };
+
+export const getHashes = async (date: string) => {
+  const { data } = await axios.get<{ hashes: string[]; }>(`/daily-stock/${date}/hashes`);
+  return data;
+};
