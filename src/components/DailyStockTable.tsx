@@ -20,6 +20,7 @@ import Decimal from 'decimal.js';
 interface DailyStockEntry {
   id: string;
   productId: string;
+  productName: string; // Add productName
   openingStock: number;
   newStock: number;
   soldQuantity: number;
@@ -48,6 +49,7 @@ export default function DailyStockTable({ date }: DailyStockTableProps) {
     if (dailyStockData) {
       setLocalData(dailyStockData.map(entry => ({
         ...entry,
+        productName: entry.product.name, // Map product name
         buyingPrice: Number(entry.buyingPrice),
         sellingPrice: Number(entry.sellingPrice),
       })));
@@ -183,7 +185,7 @@ export default function DailyStockTable({ date }: DailyStockTableProps) {
         <tbody>
           {localData.map((entry) => (
             <tr key={entry.id} className={entry.isLocked ? 'bg-gray-100' : ''}>
-              <td className="py-2 px-4 border-b">{entry.id}</td>
+              <td className="py-2 px-4 border-b">{entry.productName}</td> {/* Display product name */}
               <td className="py-2 px-4 border-b text-right">{entry.openingStock}</td>
               <td className="py-2 px-4 border-b text-right">
                 {editMode[entry.productId] ? (

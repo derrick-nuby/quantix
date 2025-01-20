@@ -20,7 +20,7 @@ const navItems = [
   { href: '/', icon: LayoutDashboard, label: 'Dashboard' },
   { href: '/summary', icon: Table2Icon, label: 'summary' },
   { href: '/products', icon: Table2Icon, label: 'products' },
-  { href: '/hashes', icon: Table2Icon, label: 'passwords' },
+  // { href: '/hashes', icon: Table2Icon, label: 'passwords' },
   { href: '/settings', icon: Settings, label: 'Settings' },
 ];
 

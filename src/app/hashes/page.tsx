@@ -1,85 +1,87 @@
 'use client';
 
-import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { getDailySummaryRange } from '@/lib/api';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import React, { useState } from 'react';
 import { format } from 'date-fns';
+import { CalendarIcon, Clipboard } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import { useDayHashes } from '@/hooks/useStockManagement';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import toast from 'react-hot-toast';
 
-export default function HashesPage() {
-  const [startDate, setStartDate] = useState(format(new Date(), 'yyyy-MM-dd'));
-  const [endDate, setEndDate] = useState(format(new Date(), 'yyyy-MM-dd'));
+export default function DailyStockPage() {
+  const [date, setDate] = useState<Date | undefined>(new Date());
 
-  const { data: summaries, isLoading, error } = useQuery({
-    queryKey: ['dailySummaries', startDate, endDate],
-    queryFn: () => getDailySummaryRange(startDate, endDate),
-    enabled: !!startDate && !!endDate
-  });
+  const formattedDate = date ? format(date, 'yyyy-MM-dd') : null;
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // The query will automatically refetch when startDate or endDate changes
+
+  const { data, isLoading, error } = useDayHashes(formattedDate || '');
+
+  const handleDateChange = (newDate: Date | undefined) => {
+    setDate(newDate);
   };
 
-  if (error) return <div>Error: {(error as Error).message}</div>;
+  const handleCopy = (hash: string) => {
+    navigator.clipboard.writeText(hash);
+    toast.success('Hash copied to clipboard!');
+  };
 
   return (
-    <div className="container mx-auto py-6">
-      <h1 className="text-3xl font-bold mb-6">View Hashes</h1>
-      <Card className="mb-6">
-        <CardHeader>
-          <CardTitle>Select Date Range</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <Label htmlFor="startDate">Start Date</Label>
-              <Input
-                id="startDate"
-                type="date"
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
-                required
-              />
-            </div>
-            <div>
-              <Label htmlFor="endDate">End Date</Label>
-              <Input
-                id="endDate"
-                type="date"
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
-                required
-              />
-            </div>
-            <Button type="submit">View Hashes</Button>
-          </form>
-        </CardContent>
-      </Card>
-      {isLoading ? (
-        <div>Loading...</div>
-      ) : (
-        <div className="space-y-4">
-          {summaries?.map((summary) => (
-            <Card key={summary.id}>
-              <CardHeader>
-                <CardTitle>{format(new Date(summary.date), 'MMMM d, yyyy')}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p>Edit Hash: {summary.editHash}</p>
-                <p>Total Profit: ${summary.totalProfit.toFixed(2)}</p>
-                <p>Total Inflow: ${summary.totalInflow.toFixed(2)}</p>
-                <p>Total Outflow: ${summary.totalOutflow.toFixed(2)}</p>
-                <p>Locked: {summary.isLocked ? 'Yes' : 'No'}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      )}
+    <div className="p-4">
+      <div className="mb-4">
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              className={cn(
+                'w-[280px] justify-start text-left font-normal',
+                !date && 'text-muted-foreground'
+              )}
+            >
+              <CalendarIcon className="mr-2 h-4 w-4" />
+              {date ? format(date, 'PPP') : <span>Pick a date</span>}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0">
+            <Calendar
+              mode="single"
+              selected={date}
+              onSelect={handleDateChange}
+              initialFocus
+            />
+          </PopoverContent>
+        </Popover>
+      </div>
+      <div>
+        {isLoading && <p>Loading...</p>}
+        {error && <p>Error loading data</p>}
+
+        {data && (
+          <div>
+            {data.hashes.map((hash: string) => (
+              <Card key={hash} className="mb-4">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Hash</CardTitle>
+                  <Clipboard className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent className="flex items-center justify-between">
+                  <span>{hash}</span>
+                  <Button variant="outline" onClick={() => handleCopy(hash)}>
+                    <Clipboard className="mr-2 h-4 w-4" />
+                    Copy
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
-

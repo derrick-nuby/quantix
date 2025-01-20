@@ -140,3 +140,8 @@ export const useLowStockProducts = (threshold?: number) => {
     queryFn: () => api.getLowStockProducts(threshold),
   });
 };
+
+
+export const useDayHashes = (date: string) => {
+  return useQuery({ queryKey: ['dayHashes', date], queryFn: () => api.getHashes(date) });
+};
