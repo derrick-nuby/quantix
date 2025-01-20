@@ -1,267 +1,272 @@
 {
 	"updates": [
 		{
-			"productId": "cm62duw8e0001lrocr1tzm6j9",
+			"productId": "cm64q1c2g0000p52yiqfgn1xp",
 			"buyingPrice": 1200,
 			"sellingPrice": 1500
 		},
 		{
-			"productId": "cm62duw8f0002lroclayq8acf",
+			"productId": "cm64q1c2h0001p52yefsdfmky",
 			"buyingPrice": 850,
 			"sellingPrice": 1000
 		},
 		{
-			"productId": "cm62duw8f0003lroczc60j6i7",
+			"productId": "cm64q1c2h0002p52yc9pi5wvw",
 			"buyingPrice": 2200,
 			"sellingPrice": 2500
 		},
 		{
-			"productId": "cm62duw8f0004lroct22asquq",
+			"productId": "cm64q1c2h0003p52y7d2scko8",
 			"buyingPrice": 1000,
 			"sellingPrice": 1200
 		},
 		{
-			"productId": "cm62duw8f0005lroc157r1wq1",
+			"productId": "cm64q1c2h0004p52yhsop1ynr",
 			"buyingPrice": 1700,
 			"sellingPrice": 2000
 		},
 		{
-			"productId": "cm62duw8f0006lrocbii0sudf",
+			"productId": "cm64q1c2h0005p52yep38cp1h",
 			"buyingPrice": 1700,
 			"sellingPrice": 2000
 		},
 		{
-			"productId": "cm62duw8f0007lroc9478xh8u",
+			"productId": "cm64q1c2h0006p52y1uxgu0gl",
 			"buyingPrice": 4500,
 			"sellingPrice": 5500
 		},
 		{
-			"productId": "cm62duw8g0008lrocq59g8y5w",
+			"productId": "cm64q1c2h0007p52y4lg6ah0b",
 			"buyingPrice": 3000,
 			"sellingPrice": 3500
 		},
 		{
-			"productId": "cm62duw8g0009lrock7vr9md7",
+			"productId": "cm64q1c2h0008p52yb5bdrncj",
 			"buyingPrice": 2000,
 			"sellingPrice": 2500
 		},
 		{
-			"productId": "cm62duw8g000alrocmz4j8xnv",
+			"productId": "cm64q1c2h0009p52y712vfskq",
 			"buyingPrice": 450,
 			"sellingPrice": 600
 		},
 		{
-			"productId": "cm62duw8g000blrocwkqh803u",
+			"productId": "cm64q1c2h000ap52yhpy7t1md",
 			"buyingPrice": 650,
 			"sellingPrice": 800
 		},
 		{
-			"productId": "cm62duw8g000clrocqtvfb6tm",
+			"productId": "cm64q1c2h000bp52yfp9n3w0d",
 			"buyingPrice": 450,
 			"sellingPrice": 600
 		},
 		{
-			"productId": "cm62duw8g000dlrocti0wic64",
+			"productId": "cm64q1c2h000cp52y2hm3woqe",
 			"buyingPrice": 450,
 			"sellingPrice": 600
 		},
 		{
-			"productId": "cm62duw8h000elroc041mqi6u",
+			"productId": "cm64q1c2h000dp52yfjmhoysw",
 			"buyingPrice": 800,
 			"sellingPrice": 1000
 		},
 		{
-			"productId": "cm62duw8h000flrocvtwiw1q7",
+			"productId": "cm64q1c2h000ep52ypa3s1i7e",
 			"buyingPrice": 800,
 			"sellingPrice": 1000
 		},
 		{
-			"productId": "cm62duw8h000glrocohjwmpxo",
+			"productId": "cm64q1c2h000fp52yv16yiqhy",
 			"buyingPrice": 3000,
 			"sellingPrice": 3500
 		},
 		{
-			"productId": "cm62duw8h000hlrocbro48ptt",
+			"productId": "cm64q1c2i000gp52yj3mj7uh6",
 			"buyingPrice": 1200,
 			"sellingPrice": 1500
 		},
 		{
-			"productId": "cm62duw8h000ilrocypfvvy29",
+			"productId": "cm64q1c2i000hp52yw8s48djb",
 			"buyingPrice": 1000,
 			"sellingPrice": 1200
 		},
 		{
-			"productId": "cm62duw8h000jlroc7r9txq42",
+			"productId": "cm64q1c2i000ip52y6fh0qk97",
 			"buyingPrice": 1000,
 			"sellingPrice": 1200
 		},
 		{
-			"productId": "cm62duw8i000klrocusq3w371",
+			"productId": "cm64q1c2i000jp52yh12j7qoc",
 			"buyingPrice": 1200,
 			"sellingPrice": 1500
 		},
 		{
-			"productId": "cm62duw8i000llroc7rz71bj4",
+			"productId": "cm64q1c2i000kp52yfupko5wi",
 			"buyingPrice": 800,
 			"sellingPrice": 1000
 		},
 		{
-			"productId": "cm62duw8i000mlroc7imn9kgd",
+			"productId": "cm64q1c2i000lp52yyn8r678x",
 			"buyingPrice": 8000,
 			"sellingPrice": 9000
 		},
 		{
-			"productId": "cm62duw8i000nlroc0s6bu9iq",
+			"productId": "cm64q1c2i000mp52yyzu70roo",
 			"buyingPrice": 2500,
 			"sellingPrice": 3000
 		},
 		{
-			"productId": "cm62duw8i000olrocysk2xhnr",
+			"productId": "cm64q1c2i000np52yi5h63bgo",
 			"buyingPrice": 750,
 			"sellingPrice": 900
 		},
 		{
-			"productId": "cm62duw8i000plroc614vipzi",
+			"productId": "cm64q1c2i000op52yv4s6izfb",
 			"buyingPrice": 7000,
 			"sellingPrice": 8000
 		},
 		{
-			"productId": "cm62duw8i000qlroc6btb9djm",
+			"productId": "cm64q1c2i000pp52ydodua1mw",
 			"buyingPrice": 12000,
 			"sellingPrice": 14000
 		},
 		{
-			"productId": "cm62duw8j000rlroc2gqlvpcx",
+			"productId": "cm64q1c2i000qp52ymj52y5gn",
 			"buyingPrice": 2500,
 			"sellingPrice": 3000
 		},
 		{
-			"productId": "cm62duw8j000slrocz2brwxq9",
+			"productId": "cm64q1c2i000rp52ycmoindzb",
 			"buyingPrice": 1000,
 			"sellingPrice": 1200
 		},
 		{
-			"productId": "cm62duw8j000tlrocqd1lu6hd",
+			"productId": "cm64q1c2i000sp52yoy3xika2",
 			"buyingPrice": 650,
 			"sellingPrice": 800
 		},
 		{
-			"productId": "cm62duw8j000ulrocuyn85fzf",
+			"productId": "cm64q1c2i000tp52yyruogsd3",
 			"buyingPrice": 800,
 			"sellingPrice": 1000
 		},
 		{
-			"productId": "cm62duw8j000vlroc6x09dn7a",
+			"productId": "cm64q1c2i000up52yhqpknvxv",
 			"buyingPrice": 800,
 			"sellingPrice": 1000
 		},
 		{
-			"productId": "cm62duw8j000wlrocaq2stfem",
+			"productId": "cm64q1c2j000vp52ygk1s3imb",
 			"buyingPrice": 2000,
 			"sellingPrice": 2500
 		},
 		{
-			"productId": "cm62duw8k000xlroc2wzfted3",
+			"productId": "cm64q1c2j000wp52yogzw0lzf",
 			"buyingPrice": 1500,
 			"sellingPrice": 1700
 		},
 		{
-			"productId": "cm62duw8k000ylrockjiavvla",
+			"productId": "cm64q1c2j000xp52yrecu59ci",
 			"buyingPrice": 1700,
 			"sellingPrice": 2000
 		},
 		{
-			"productId": "cm62duw8k000zlrocefig3bqb",
+			"productId": "cm64q1c2j000yp52ykuy1esq9",
 			"buyingPrice": 850,
 			"sellingPrice": 1000
 		},
 		{
-			"productId": "cm62duw8k0010lrocsx138jo9",
+			"productId": "cm64q1c2j000zp52yy98ey9mc",
 			"buyingPrice": 450,
 			"sellingPrice": 600
 		},
 		{
-			"productId": "cm62duw8l0011lrocz9r70mtg",
+			"productId": "cm64q1c2j0010p52yrk7z0i18",
 			"buyingPrice": 750,
 			"sellingPrice": 900
 		},
 		{
-			"productId": "cm62duw8l0012lrocrdig38kk",
+			"productId": "cm64q1c2j0011p52yi9hmgh1e",
 			"buyingPrice": 550,
 			"sellingPrice": 700
 		},
 		{
-			"productId": "cm62duw8l0013lroclduknhdr",
+			"productId": "cm64q1c2j0012p52yji5uqd4k",
 			"buyingPrice": 750,
 			"sellingPrice": 900
 		},
 		{
-			"productId": "cm62duw8l0014lrocbaydphp8",
+			"productId": "cm64q1c2j0013p52ydlq7pltx",
 			"buyingPrice": 650,
 			"sellingPrice": 800
 		},
 		{
-			"productId": "cm62duw8l0015lrocx40btx45",
+			"productId": "cm64q1c2j0014p52y0l5diplp",
 			"buyingPrice": 450,
 			"sellingPrice": 600
 		},
 		{
-			"productId": "cm62duw8l0016lroca7jfxdla",
+			"productId": "cm64q1c2j0015p52y619w7yfi",
 			"buyingPrice": 1100,
 			"sellingPrice": 1300
 		},
 		{
-			"productId": "cm62duw8l0017lrocdq5d7rqy",
+			"productId": "cm64q1c2j0016p52yhzik2qdu",
 			"buyingPrice": 1200,
 			"sellingPrice": 1500
 		},
 		{
-			"productId": "cm62duw8m0018lroc36pv58pk",
+			"productId": "cm64q1c2j0017p52ylog40sro",
 			"buyingPrice": 1100,
 			"sellingPrice": 1300
 		},
 		{
-			"productId": "cm62duw8m0019lrocx9dusdlu",
+			"productId": "cm64q1c2j0018p52ywgkb6kvr",
 			"buyingPrice": 1400,
 			"sellingPrice": 1600
 		},
 		{
-			"productId": "cm62duw8m001alrocrj6vpdos",
+			"productId": "cm64q1c2j0019p52yd5bn311x",
 			"buyingPrice": 850,
 			"sellingPrice": 1000
 		},
 		{
-			"productId": "cm62duw8m001blroc1xwl0lc7",
+			"productId": "cm64q1c2j001ap52yel5mq7t2",
 			"buyingPrice": 800,
 			"sellingPrice": 1000
 		},
 		{
-			"productId": "cm62duw8m001clrocs4eoa87x",
+			"productId": "cm64q1c2j001bp52ykf57ta0g",
 			"buyingPrice": 2000,
 			"sellingPrice": 2500
 		},
 		{
-			"productId": "cm62duw8m001dlrocl8khas6c",
+			"productId": "cm64q1c2j001cp52y66prxa8y",
 			"buyingPrice": 900,
 			"sellingPrice": 1100
 		},
 		{
-			"productId": "cm62duw8m001elrocpt84o046",
+			"productId": "cm64q1c2j001dp52yc2377ol7",
 			"buyingPrice": 1300,
 			"sellingPrice": 1500
 		},
 		{
-			"productId": "cm62duw8n001flrocw6nvr6dd",
+			"productId": "cm64q1c2j001ep52y2ut1y899",
 			"buyingPrice": 450,
 			"sellingPrice": 600
 		},
 		{
-			"productId": "cm62duw8n001glrocjuba5uiy",
+			"productId": "cm64q1c2k001fp52ympf5bw0m",
 			"buyingPrice": 850,
 			"sellingPrice": 1000
 		},
 		{
-			"productId": "cm62duw8n001hlroc94htnouv",
+			"productId": "cm64q1c2k001gp52y07u3alxn",
+			"buyingPrice": 1300,
+			"sellingPrice": 1500
+		},
+		{
+			"productId": "cm64q1c2k001hp52ymnhiwmul",
 			"buyingPrice": 1300,
 			"sellingPrice": 1500
 		}
