@@ -45,7 +45,7 @@ export const initiateDailyStock = async (date: string) => {
 };
 
 export const getDailyStock = async (date: string) => {
-  const { data } = await axios.get<DailyStock[]>(`/daily-stock/${date}`);
+  const { data } = await axios.get<(DailyStock & { product: Product; })[]>(`/daily-stock/${date}`);
   return data;
 };
 
