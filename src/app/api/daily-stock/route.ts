@@ -1,5 +1,6 @@
-import { NextResponse, NextRequest } from 'next/server';
-import { prisma } from '@/lib/prisma';
+import { NextResponse, type NextRequest } from "next/server";
+import { prisma } from "@/lib/prisma";
+import { subDays } from "date-fns";
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,7 +13,17 @@ export async function POST(request: NextRequest) {
     });
 
     if (existingEntries) {
-      return NextResponse.json({ error: 'Entries for this date already exist' }, { status: 400 });
+      return NextResponse.json({ error: "Entries for this date already exist" }, { status: 400 });
+    }
+
+    // Check if previous day's entries are complete
+    const previousDay = subDays(parsedDate, 1);
+    const previousDayEntries = await prisma.dailyStock.findFirst({
+      where: { date: previousDay },
+    });
+
+    if (!previousDayEntries) {
+      return NextResponse.json({ error: "Previous day's entries are not complete" }, { status: 400 });
     }
 
     // Get all products
@@ -21,18 +32,10 @@ export async function POST(request: NextRequest) {
     // Create daily stock entries for each product
     const dailyStocks = await Promise.all(
       products.map(async (product: { id: string; }) => {
-        const previousDay = new Date(parsedDate);
-        previousDay.setDate(previousDay.getDate() - 1);
-
         const previousStock = await prisma.dailyStock.findFirst({
           where: {
             productId: product.id,
-            date: {
-              lt: parsedDate,
-            },
-          },
-          orderBy: {
-            date: 'desc',
+            date: previousDay,
           },
         });
 
@@ -46,12 +49,13 @@ export async function POST(request: NextRequest) {
             sellingPrice: previousStock ? previousStock.sellingPrice : 0,
           },
         });
-      })
+      }),
     );
 
     return NextResponse.json(dailyStocks, { status: 201 });
   } catch (error) {
-    console.error('Failed to start day:', error);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    console.error("Failed to start day:", error);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
+

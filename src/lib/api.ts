@@ -23,7 +23,7 @@ export const getProducts = async (params: ProductsParams): Promise<ProductRespon
   return data;
 };
 
-export const createProduct = async (product: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>) => {
+export const createProduct = async (product: Omit<Product, 'id' | 'productNumber' | 'createdAt' | 'updatedAt'>) => {
   const { data } = await axios.post<Product>('/products', product);
   return data;
 };
