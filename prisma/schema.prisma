@@ -11,7 +11,7 @@ datasource db {
 
 model Product {
   id          String       @id @default(cuid())
-  productNumber Int        @unique @default(autoincrement())
+  productNumber Int?        @unique @default(autoincrement())
   name        String
   imageUrl    String?
   lowStock    Int          @default(5)

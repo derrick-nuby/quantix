@@ -22,6 +22,7 @@ interface DailyStockEntry {
   id: string;
   productId: string;
   productName: string; // Add productName
+  productNumber: number;
   openingStock: number;
   newStock: number;
   soldQuantity: number;
@@ -50,7 +51,8 @@ export default function DailyStockTable({ date }: DailyStockTableProps) {
     if (dailyStockData) {
       setLocalData(dailyStockData.map(entry => ({
         ...entry,
-        productName: entry.product.name, // Map product name
+        productName: entry.product.name,
+        productNumber: entry.product.productNumber ?? 100,
         buyingPrice: Number(entry.buyingPrice),
         sellingPrice: Number(entry.sellingPrice),
       })));
@@ -172,7 +174,7 @@ export default function DailyStockTable({ date }: DailyStockTableProps) {
       <table className="min-w-full bg-white border border-gray-300">
         <thead>
           <tr className="bg-gray-100">
-            <th className="py-2 px-4 border-b">N0</th> {/* Add Product Number column */}
+            <th className="py-2 px-4 border-b">No</th> {/* Add Product Number column */}
             <th className="py-2 px-4 border-b">Product Name</th>
             <th className="py-2 px-4 border-b">Opening Stock</th>
             <th className="py-2 px-4 border-b">New Stock</th>
@@ -187,7 +189,7 @@ export default function DailyStockTable({ date }: DailyStockTableProps) {
         <tbody>
           {localData.map((entry) => (
             <tr key={entry.id} className={entry.isLocked ? 'bg-gray-100' : ''}>
-              <td className="py-2 px-4 border-b">{entry.product.productNumber}</td> {/* Display product number */}
+              <td className="py-2 px-4 border-b">{entry.productNumber}</td> {/* Display product number */}
               <td className="py-2 px-4 border-b">{entry.productName}</td> {/* Display product name */}
               <td className="py-2 px-4 border-b text-right">{entry.openingStock}</td>
               <td className="py-2 px-4 border-b text-right">
