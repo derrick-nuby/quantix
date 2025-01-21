@@ -18,6 +18,7 @@ export async function POST(request: NextRequest) {
             name: product.name,
             imageUrl: product.imageUrl,
             lowStock: product.lowStock || 5,
+            productNumber: product.productNumber,
           },
         })
       )

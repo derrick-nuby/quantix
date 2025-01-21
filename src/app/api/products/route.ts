@@ -1,3 +1,5 @@
+// file location = src/app/api/products/route.ts
+
 import { NextResponse, NextRequest } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { Product } from '@prisma/client';
@@ -5,7 +7,7 @@ import { Product } from '@prisma/client';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, imageUrl } = body;
+    const { name, imageUrl, productNumber } = body;
 
     if (!name) {
       return NextResponse.json({ error: 'Name is required' }, { status: 400 });
@@ -15,6 +17,7 @@ export async function POST(request: NextRequest) {
       data: {
         name,
         imageUrl,
+        productNumber,
       },
     });
 
@@ -31,8 +34,8 @@ export async function GET(request: NextRequest) {
     const page = parseInt(searchParams.get('page') || '1', 10);
     const limit = parseInt(searchParams.get('limit') || '10', 10);
     const search = searchParams.get('search') || '';
-    const sortBy = searchParams.get('sortBy') || 'createdAt';
-    const order = (searchParams.get('order') || 'desc') as 'asc' | 'desc';
+    const sortBy = searchParams.get('sortBy') || 'productNumber'; // Default sort by productNumber
+    const order = (searchParams.get('order') || 'asc') as 'asc' | 'desc'; // Default order is ascending
 
     const skip = (page - 1) * limit;
 
