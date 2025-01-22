@@ -1,3 +1,5 @@
+// file location = src/app/api/daily-stock/[date]/route.ts
+
 import { NextResponse, NextRequest } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
@@ -5,9 +7,7 @@ type Params = Promise<{ date: Date; }>;
 
 export async function GET(request: NextRequest, { params }: { params: Params; }) {
   try {
-
     const resolvedParams = await params;
-
     const date = new Date(resolvedParams.date);
 
     const dailyStocks = await prisma.dailyStock.findMany({
@@ -23,7 +23,13 @@ export async function GET(request: NextRequest, { params }: { params: Params; })
             id: true,
             name: true,
             lowStock: true,
+            productNumber: true, // Include productNumber in the selection
           },
+        },
+      },
+      orderBy: {
+        product: {
+          productNumber: 'asc', // Order by productNumber
         },
       },
     });

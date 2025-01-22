@@ -1,11 +1,13 @@
+// file location = src/components/DailyStockTable.tsx
 import React, { useState, useEffect } from 'react';
 import { useDailyStock, useUpdateDailyStock, useLockDay, useUnlockDay } from '@/hooks/useStockManagement';
 import { formatCurrency } from '@/utils/formatters';
-import { Lock, Unlock, Edit, Save } from 'lucide-react';
+import { Lock, Unlock, Edit, Save, X } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -21,6 +23,7 @@ interface DailyStockEntry {
   id: string;
   productId: string;
   productName: string; // Add productName
+  productNumber: number;
   openingStock: number;
   newStock: number;
   soldQuantity: number;
@@ -49,7 +52,8 @@ export default function DailyStockTable({ date }: DailyStockTableProps) {
     if (dailyStockData) {
       setLocalData(dailyStockData.map(entry => ({
         ...entry,
-        productName: entry.product.name, // Map product name
+        productName: entry.product.name,
+        productNumber: entry.product.productNumber ?? 100,
         buyingPrice: Number(entry.buyingPrice),
         sellingPrice: Number(entry.sellingPrice),
       })));
@@ -62,6 +66,10 @@ export default function DailyStockTable({ date }: DailyStockTableProps) {
 
   const handleEdit = (productId: string) => {
     setEditMode(prev => ({ ...prev, [productId]: true }));
+  };
+
+  const handleCancelEdit = (productId: string) => {
+    setEditMode(prev => ({ ...prev, [productId]: false }));
   };
 
   const handleSave = async (entry: DailyStockEntry) => {
@@ -119,6 +127,12 @@ export default function DailyStockTable({ date }: DailyStockTableProps) {
         setUnlockHash('');
         refetch();
         toast.success('Day unlocked successfully');
+
+        // Close the dialog
+        const dialogCloseButton = document.querySelector('[data-state="open"] [data-radix-collection-item]');
+        if (dialogCloseButton) {
+          (dialogCloseButton as HTMLElement).click();
+        }
       } catch (error) {
         console.error('Failed to unlock day:', error);
         toast.error('Failed to unlock day. Please check the edit hash.');
@@ -141,9 +155,7 @@ export default function DailyStockTable({ date }: DailyStockTableProps) {
         </Button>
         <Dialog>
           <DialogTrigger asChild>
-            <Button
-              disabled={!localData.some(entry => entry.isLocked)}
-            >
+            <Button disabled={!localData.some(entry => entry.isLocked)}>
               <Unlock className="mr-2 h-4 w-4" /> Unlock Day
             </Button>
           </DialogTrigger>
@@ -164,6 +176,9 @@ export default function DailyStockTable({ date }: DailyStockTableProps) {
             </div>
             <DialogFooter>
               <Button onClick={handleUnlockDay}>Unlock</Button>
+              <DialogClose asChild>
+                <Button variant="outline">Close</Button>
+              </DialogClose>
             </DialogFooter>
           </DialogContent>
         </Dialog>
@@ -171,6 +186,7 @@ export default function DailyStockTable({ date }: DailyStockTableProps) {
       <table className="min-w-full bg-white border border-gray-300">
         <thead>
           <tr className="bg-gray-100">
+            <th className="py-2 px-4 border-b">No</th> {/* Add Product Number column */}
             <th className="py-2 px-4 border-b">Product Name</th>
             <th className="py-2 px-4 border-b">Opening Stock</th>
             <th className="py-2 px-4 border-b">New Stock</th>
@@ -185,6 +201,7 @@ export default function DailyStockTable({ date }: DailyStockTableProps) {
         <tbody>
           {localData.map((entry) => (
             <tr key={entry.id} className={entry.isLocked ? 'bg-gray-100' : ''}>
+              <td className="py-2 px-4 border-b">{entry.productNumber}</td> {/* Display product number */}
               <td className="py-2 px-4 border-b">{entry.productName}</td> {/* Display product name */}
               <td className="py-2 px-4 border-b text-right">{entry.openingStock}</td>
               <td className="py-2 px-4 border-b text-right">
@@ -242,13 +259,21 @@ export default function DailyStockTable({ date }: DailyStockTableProps) {
               <td className="py-2 px-4 border-b">
                 {!entry.isLocked && (
                   editMode[entry.productId] ? (
-                    <Button
-                      onClick={() => handleSave(entry)}
-                      size="sm"
-                      className="mr-2"
-                    >
-                      <Save className="mr-2 h-4 w-4" /> Save
-                    </Button>
+                    <div className='flex'>
+                      <Button
+                        onClick={() => handleSave(entry)}
+                        size="sm"
+                        className="mr-2"
+                      >
+                        <Save className="mr-2 h-4 w-4" /> Save
+                      </Button>
+                      <Button
+                        onClick={() => handleCancelEdit(entry.productId)}
+                        size="sm"
+                      >
+                        <X className="h-2 w-2" />
+                      </Button>
+                    </div>
                   ) : (
                     <Button
                       onClick={() => handleEdit(entry.productId)}

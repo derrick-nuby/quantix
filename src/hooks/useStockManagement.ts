@@ -2,6 +2,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import * as api from '../lib/api';
 import { Product, DailyStock } from '@prisma/client';
+import { format, subDays } from 'date-fns';
 
 interface ProductsParams {
   page: number;
@@ -52,9 +53,18 @@ export const useDeleteProduct = () => {
 export const useStartDay = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (date: string) => api.initiateDailyStock(date),
+    mutationFn: async (date: string) => {
+      const previousDate = format(subDays(new Date(date), 1), "yyyy-MM-dd");
+      const previousDayData = await api.getDailyStock(previousDate);
+
+      if (!previousDayData || previousDayData.length === 0) {
+        throw new Error("Previous day's entries are not complete");
+      }
+
+      return api.initiateDailyStock(date);
+    },
     onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['dailyStock', variables] });
+      queryClient.invalidateQueries({ queryKey: ["dailyStock", variables] });
     },
   });
 };
