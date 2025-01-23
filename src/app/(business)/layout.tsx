@@ -1,6 +1,6 @@
 import { Crimson_Text, Roboto } from 'next/font/google';
-import "./globals.css";
-import Providers from "./providers";
+import "../globals.css";
+import Providers from "../providers";
 import { AppSidebar } from "@/components/AppSidebar";
 import { TopBar } from "@/components/top-bar";
 

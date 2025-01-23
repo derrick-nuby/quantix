@@ -140,3 +140,9 @@ export const getHashes = async (date: string) => {
   const { data } = await axios.get<{ hashes: string[]; }>(`/daily-stock/${date}/hashes`);
   return data;
 };
+
+
+export const loadPreviousDayData = async (date: string) => {
+  const { data } = await axios.post<DailyStock[]>(`/daily-stock/${date}/load-previous-day`);
+  return data;
+};
