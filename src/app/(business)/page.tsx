@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { format } from 'date-fns';
-import { CalendarIcon } from 'lucide-react';
+import { CalendarIcon, RefreshCcw } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -14,6 +14,7 @@ import {
 import DailyStockTable from '@/components/DailyStockTable';
 import { useStartDay } from '@/hooks/useStockManagement';
 import toast from 'react-hot-toast';
+
 
 export default function DailyStockPage() {
   const [date, setDate] = useState<Date | undefined>(new Date());
@@ -37,9 +38,17 @@ export default function DailyStockPage() {
     }
   };
 
+  const handleLoadPreviousDayData = async () => {
+    if (date) {
+      const previousDay = new Date(date);
+      previousDay.setDate(previousDay.getDate() - 1);
+      await handleDateChange(previousDay);
+    }
+  };
+
   return (
     <div className="p-4">
-      <div className="mb-4">
+      <div className="mb-12 flex items-center justify-between">
         <Popover>
           <PopoverTrigger asChild>
             <Button
@@ -62,6 +71,12 @@ export default function DailyStockPage() {
             />
           </PopoverContent>
         </Popover>
+        <Button
+          onClick={handleLoadPreviousDayData}
+          className="mr-2"
+        >
+          <RefreshCcw className="h-4 w-4" /> Load Previous Day Data
+        </Button>
       </div>
       {isLoading ? (
         <div className="flex justify-center items-center h-64">
