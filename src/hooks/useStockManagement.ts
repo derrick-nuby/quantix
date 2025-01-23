@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import * as api from '../lib/api';
 import { Product, DailyStock } from '@prisma/client';
 import { format, subDays } from 'date-fns';
+import toast from 'react-hot-toast';
 
 interface ProductsParams {
   page: number;
@@ -154,4 +155,20 @@ export const useLowStockProducts = (threshold?: number) => {
 
 export const useDayHashes = (date: string) => {
   return useQuery({ queryKey: ['dayHashes', date], queryFn: () => api.getHashes(date) });
+};
+
+
+export const useLoadPreviousDayData = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: api.loadPreviousDayData,
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['dailyStock', variables] });
+      toast.success('Previous day data loaded successfully');
+    },
+    onError: (error) => {
+      console.error('Failed to load previous day data:', error);
+      toast.error('Failed to load previous day data');
+    },
+  });
 };

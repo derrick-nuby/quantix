@@ -1,37 +1,34 @@
 'use client';
 
-import React, { useState } from 'react';
-import { format } from 'date-fns';
-import { CalendarIcon, RefreshCcw } from 'lucide-react';
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import DailyStockTable from '@/components/DailyStockTable';
-import { useStartDay } from '@/hooks/useStockManagement';
-import toast from 'react-hot-toast';
 
+import { useState } from "react";
+import { format } from "date-fns";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { RefreshCcw, CalendarIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useLoadPreviousDayData, useStartDay } from "@/hooks/useStockManagement";
+import toast from "react-hot-toast";
+import { Button } from "@/components/ui/button";
+import DailyStockTable from "@/components/DailyStockTable";
+import { Calendar } from "@/components/ui/calendar";
 
 export default function DailyStockPage() {
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [isLoading, setIsLoading] = useState(false);
   const startDay = useStartDay();
+  const loadPreviousDayData = useLoadPreviousDayData();
 
   const handleDateChange = async (newDate: Date | undefined) => {
     if (newDate) {
       setDate(newDate);
       setIsLoading(true);
-      const newFormattedDate = format(newDate, 'yyyy-MM-dd');
+      const newFormattedDate = format(newDate, "yyyy-MM-dd");
       try {
         await startDay.mutateAsync(newFormattedDate);
-        toast.success('Day data initialized successfully');
+        toast.success("Day data initialized successfully");
       } catch (error) {
-        console.error('Failed to initialize day:', error);
-        toast.error('Failed to initialize day data');
+        console.error("Failed to initialize day:", error);
+        toast.error("Failed to initialize day data");
       } finally {
         setIsLoading(false);
       }
@@ -42,7 +39,18 @@ export default function DailyStockPage() {
     if (date) {
       const previousDay = new Date(date);
       previousDay.setDate(previousDay.getDate() - 1);
-      await handleDateChange(previousDay);
+      setDate(previousDay);
+      setIsLoading(true);
+      const formattedDate = format(previousDay, "yyyy-MM-dd");
+      try {
+        await loadPreviousDayData.mutateAsync(formattedDate);
+        toast.success("Previous day data loaded successfully");
+      } catch (error) {
+        console.error("Failed to load previous day data:", error);
+        toast.error("Failed to load previous day data");
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -59,22 +67,25 @@ export default function DailyStockPage() {
               )}
             >
               <CalendarIcon className="mr-2 h-4 w-4" />
-              {date ? format(date, "PPP") : <span>Pick a date</span>}
+              {date ? format(date, "PPP") : "Select a date"}
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0">
             <Calendar
               mode="single"
               selected={date}
-              onSelect={handleDateChange}
+              onSelect={handleDateChange} // Fixed: Pass the handler directly
               initialFocus
+              modifiers={{
+                disabled: (day) => day > new Date(), // Fixed: Only disable future dates
+              }}
+              modifiersStyles={{
+                disabled: { pointerEvents: 'none', opacity: 0.5 },
+              }}
             />
           </PopoverContent>
         </Popover>
-        <Button
-          onClick={handleLoadPreviousDayData}
-          className="mr-2"
-        >
+        <Button onClick={handleLoadPreviousDayData} className="mr-2">
           <RefreshCcw className="h-4 w-4" /> Load Previous Day Data
         </Button>
       </div>
