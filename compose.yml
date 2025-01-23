@@ -1,7 +1,7 @@
 services:
   frontend:
-    image: ghcr.io/derrick-nuby/quantix:prod
-    container_name: quantix-frontend
+    image: ghcr.io/derrick-nuby/quantix:dev
+    container_name: quantix-frontend-dev
     build: .
     ports:
       - "3020:3000"
@@ -15,7 +15,7 @@ services:
       - app-network
 
   database:
-    container_name: quantix-database
+    container_name: quantix-database-dev
     image: postgres:15-alpine
     restart: unless-stopped
     environment:
