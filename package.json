@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "seed:products": "cross-env PGPASSWORD=123 psql -U derrickuser -h localhost -p 5432 -d quantixTestSeed -f src/data/product_data.sql",
-    "seed:daily-stocks": "cross-env PGPASSWORD=123 psql -U derrickuser -h localhost -p 5432 -d quantixTestSeed -f src/data/daily_stock_data.sql",
+    "seed:products": "cross-env PGPASSWORD=123 psql -U derrickuser -h localhost -p 5432 -d QuantixDBV2 -f src/data/product_data.sql",
+    "seed:daily-stocks": "cross-env PGPASSWORD=123 psql -U derrickuser -h localhost -p 5432 -d QuantixDBV2 -f src/data/daily_stock_data.sql",
     "seed:all": "npm run seed:products && npm run seed:daily-stocks"
   },
   "dependencies": {
