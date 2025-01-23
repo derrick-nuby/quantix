@@ -1,9 +1,10 @@
 import SwaggerUI from "swagger-ui-react";
 import "swagger-ui-react/swagger-ui.css";
+import swaggerjson from "@/data/swagger.json";
 const page = () => {
   return (
     <div>
-      <SwaggerUI url="./swagger.json" />
+      <SwaggerUI spec={swaggerjson} />
     </div>
   );
 };
