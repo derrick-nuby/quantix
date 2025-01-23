@@ -3,7 +3,7 @@ import "swagger-ui-react/swagger-ui.css";
 const page = () => {
   return (
     <div>
-      <SwaggerUI url="swagger.json" />
+      <SwaggerUI url="./swagger.json" />
     </div>
   );
 };
